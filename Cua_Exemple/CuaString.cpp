@@ -1,5 +1,5 @@
 //
-// Created by alber on 01/04/2022.
+// Created by albert on 01/04/2022.
 //
 
 #include "CuaString.h"

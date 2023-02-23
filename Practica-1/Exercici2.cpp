@@ -16,7 +16,7 @@ void menu(int &opcio, string nom){
 void benvinguda(string nom){
     cout << "\nBenvingut/da a l'assignatura d'estructura de dades " << nom << endl;
 }
-int main(){
+int mainExercici2(){
     string nom;
     int opcio;
     bool sortir = false;
