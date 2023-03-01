@@ -18,6 +18,8 @@ bool esNumero(char *lectura) {
 }
 
 int llegirStringTOint(string text, int limitA, int limitB) {
+    // Post: retorna lectura Integer o error si no és Integer
+
     char lectura[100];
     int numero;
     while(true){
@@ -79,6 +81,7 @@ void afegirClient(vector<Client> &clientList){
     cout << "Població: "; cin >> poblacio;
     cout << "Telèfon: "; cin >> telefon;
     cout << "DNI: "; cin >> dni;
+    
     if ( !existDNI(dni, clientList)) {
         edat = llegirStringTOint("Edat (0 .. 150): ", 0, 150);
 

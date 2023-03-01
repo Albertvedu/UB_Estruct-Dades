@@ -4,14 +4,13 @@
 #include <vector>
 #include "Mascota.h"
 using namespace std;
-//#pragma once
 
 class Client
 {
 public:
     Client();
     
-     Client(const string &nom, const string &adreca, const string &poblacio, const string &telefon, const string &dni,
+    Client(const string &nom, const string &adreca, const string &poblacio, const string &telefon, const string &dni,
            int edat);
     ~Client();
 
@@ -50,6 +49,7 @@ private:
 
     // METODES PRIVATS
     int buscarMascota();
+    
 };
 
 #endif

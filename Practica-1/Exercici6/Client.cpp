@@ -22,7 +22,6 @@ Client::Client(const string &nom, const string &adreca, const string &poblacio, 
     this->telefon = telefon;
     this->dni = dni;
     this->edat = edat;
-    //this->mascotes = mascotes[0];
 }
 Client::~Client(){
 
@@ -94,6 +93,7 @@ void Client::eliminarMascota(vector<Client> &clientList){
 
 //METODES PRIVATS
 int Client::buscarMascota(){
+    // Post: retorna posició de la mascota o -1 si no existeix
     string nom;
     cout << "\nNom mascota: "; cin >> nom;
 
