@@ -5,8 +5,7 @@
 #include "Mascota.h"
 using namespace std;
 
-class Client
-{
+class Client{
 public:
     Client();
     
@@ -31,7 +30,7 @@ public:
 
 
     //CONSULTORS
-    void print(vector<Mascota> mascotes);
+    void print(vector<Mascota> mascotes) const;
     void mostrarMascotes(vector<Client> clientList, int pos) const; 
     
     //MODIFICADORS

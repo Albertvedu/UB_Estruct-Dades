@@ -22,6 +22,7 @@ int llegirStringTOint(string text, int limitA, int limitB) {
 
     char lectura[100];
     int numero;
+
     while(true){
         try{
             cout << text;
@@ -44,18 +45,18 @@ void menu(int &opcio, vector<string> opMenu){
     vector<string>::iterator it;
 
     for (it = opMenu.begin(); it != opMenu.end(); ++it)
-        cout << "\n"
-             << *it << endl;
+        cout << "\n" << *it << endl;
     opcio = llegirStringTOint("\nOpció: ", 0,opMenu.size()-1);
 }
 bool existDNI(string dni, const vector<Client> &clientList){
-
+    // Post: booleà
     for ( Client c: clientList)
         if (c.getDni() == dni)
             return true;
     return false;
 }
 Mascota insertarMascota(){
+    // Post: retorna una mascota
     string nom, tipus, raca, color;
     char genere;
     int edat;

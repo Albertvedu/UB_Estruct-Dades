@@ -4,14 +4,7 @@
 #include <vector>
 using namespace std;
 
-Client::Client(){
-    this->nom = "test";
-    this->adreca = "adreca";
-    this->poblacio = "poblacio";
-    this->telefon = "telefon";
-    this->dni = "dni";
-    this->edat = 18;
-}
+Client::Client(){}
 
 
 Client::Client(const string &nom, const string &adreca, const string &poblacio, const string &telefon,
@@ -58,7 +51,7 @@ const vector<Mascota> Client::getMascotes() const{
 
 
 //CONSULTORS
-void Client:: print(vector<Mascota> mascotes){
+void Client:: print(vector<Mascota> mascotes) const{
     cout << "Nom:" << getNom() <<" Adreça: " << getAdreca() << " Dni: " << getDni() << endl;
     for(Mascota p: mascotes)
         cout << "Nom: " << p.getNom() << " Raça: " << p.getRaca() << endl; 

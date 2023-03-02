@@ -84,10 +84,10 @@ void llegirOpcioPersona(string &op){
         cin >> op;
         op = tolower(op[0]);
 
-        if ( op.compare("e") && op.compare("p"))
+        if ( op != "e" && op != "p")
             cout << "Opció incorrecta: \n\n"
                  << endl;
-    } while (op.compare("e") && op.compare("p"));
+    } while (op != "e" && op != "p");
 }
 void afegirPersona(int &nEstudiant, int &nProfessor){
     string op;
