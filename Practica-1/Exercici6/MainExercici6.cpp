@@ -73,6 +73,7 @@ Mascota insertarMascota(){
     return mascota;
 }
 void afegirClient(vector<Client> &clientList){
+    // Post: afegeix client o llença misatje error
     string nom, adreca, poblacio, telefon, dni;
     int edat;
 
