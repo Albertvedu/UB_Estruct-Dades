@@ -51,6 +51,8 @@
         "variant": "cpp",
         "bitset": "cpp",
         "coroutine": "cpp",
-        "regex": "cpp"
+        "regex": "cpp",
+        "any": "cpp",
+        "optional": "cpp"
     }
 }

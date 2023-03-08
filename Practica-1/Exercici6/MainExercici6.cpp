@@ -89,12 +89,15 @@ void afegirClient(vector<Client> &clientList){
 
         Client client(nom, adreca, poblacio, telefon, dni, edat);
         clientList.push_back(client);
-        cout << "\nVols afegir una mascota?: ";
-        string x; cin >> x;
+        cout << "\nVols afegir una mascota? (Prem 's'): ";
+        string x; cin >> x; 
         x = tolower(x[0]);
         
-        if ( x == "s")  // Aqui he intentat fer un cin.get()== 's' però donava error
+        if ( x == "s"){  // Aqui he intentat fer un cin.get()== 's' però donava error
             clientList[clientList.size()-1].afegeixMascota(insertarMascota());
+            cout << "\n\e[1mMascota afegida\e[0m" << endl;
+        }
+        cout << "\n\e[1mClient nou afegit\e[0m" << endl;
     }
     else {
         cout << "\n\e[1mJa existeix un client amb aquest DNI" << endl;
