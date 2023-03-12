@@ -6,11 +6,10 @@
 #include <stdexcept>
 using namespace std;
 
-class PilaEstatica
-{
+class PilaEstatica{
 public:
-    //PilaEstatica(int tamany_maxim = TAMANY_MAXIM);
-    PilaEstatica();
+
+    PilaEstatica(int tamany_maxim = TAMANY_MAXIM);
     PilaEstatica(const PilaEstatica &origen);
     PilaEstatica(initializer_list<int> elements); //initizalizes the stack from the list
     virtual ~PilaEstatica();
@@ -20,15 +19,13 @@ public:
     bool esBuida()const;   // return TRUE if the stack is empty
     bool esPlena() const;  // return TRUE if the stack is full
     int elementFront() const; // return the top element of stack
-    void mostrar_pila(); // print all the stack on the terminal
+    void imprimeix() const;  // print all the stack on the terminal
 
     //MODIFICADORS
     void afegirElement(const int &e); // introduce an element in the stack, exception if it is not possible
     void treureElement(); // remove top element from the stack, exception if it is not possible
 
-
 private:
-    //const int MAX_SIZE = 30;
     enum {TAMANY_MAXIM = 3};
     int _capacitat;
     int _front{};    // top de la pila

@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <stdexcept>
+
+
 using namespace std;
 
 #include "PilaEstatica.h"
@@ -39,6 +41,7 @@ int llegirStringTOint(string text, int limitA, int limitB) {
 }
 
 void menu(int &opcio, vector<string> opMenu){
+    
     cout << "\n\e[1m############   MENU   ############\e[0m" << endl;
     cout << "\nHola " <<  ", que vols fer? " << endl;
     vector<string>::iterator it;
@@ -78,7 +81,7 @@ void veureCim(PilaEstatica &p){
 }
 void veurePila(PilaEstatica &p){
     try{
-       p.mostrar_pila();
+       p.imprimeix();
     }catch( string e){
         cout << e << endl;
     }
@@ -107,7 +110,7 @@ void casProva1(PilaEstatica &p){
         cout << e;
     }
     //MOSTRAR PILA
-    p.mostrar_pila();
+    p.imprimeix();
     cout << "Front: " << p.elementFront() << endl;
     // ELIMINAR ELEMENT
     int element = p.elementFront();
@@ -117,7 +120,7 @@ void casProva1(PilaEstatica &p){
     p.afegirElement(14);
     cout << "Element " << 14 << " agregat" << endl;
     // MOSTRAR PILA
-    p.mostrar_pila();
+    p.imprimeix();
     //MOSTRAR FRONT
     cout << "Front: " << p.elementFront() << endl;
 
@@ -147,7 +150,10 @@ void casProva1(PilaEstatica &p){
 
 }
 int main(){
-    PilaEstatica p;
+    //PilaEstatica p(23);  //Aqui utilitzo el constructor amb paràmetre (int tamany_maxim = TAMANY_MAXIM)
+    PilaEstatica p;        // Aqui constructor per defecta. Que va al mateix lloc, no sé perquè.
+    // El problema és que el primer no fa servir la constant TAMANY_MAXIM i llavors dins dels mètodes la cosa falla
+
     vector <string> opMenu = {"1. Inserir element a la pila ","2. Treure element de la pila","3. Consultar el top de la pila",
                               "4. Imprimir tot el contingut de la PilaEstàtica","5. Imprimir la posició del top de la pila",
                               "6. Sortir"};

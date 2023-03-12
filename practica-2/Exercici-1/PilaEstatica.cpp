@@ -5,30 +5,37 @@
 #include <iostream>
 using namespace std;
 
-//PilaEstatica::PilaEstatica(int tamany_maxim = TAMANY_MAXIM){
-//    //this->_front = 0; //NULL no pirula
-//    this->_dades[tamany_maxim];
-//    this->_capacitat = 0;
-//}
 
-PilaEstatica::PilaEstatica() {
-    this->_dades = new int[TAMANY_MAXIM] ;
+PilaEstatica::PilaEstatica(int tamany_maxim){
+    this->_front = -1; 
+    this->_dades = new int[tamany_maxim];
     this->_capacitat = 0;
-    cout << "ESTRUCTURA CREADA DE " << TAMANY_MAXIM << " ELEMENTS." << endl;
+    cout << "ESTRUCTURA CREADA DE " << tamany_maxim << " ELEMENTS." << endl;
 }
+
 PilaEstatica::PilaEstatica(const PilaEstatica &origen){
 
     //_front = 0;  //NULL no pirula
 
 
-    if ( !origen.esBuida())
+    if ( !origen.esBuida()){
+        this->_front = origen._front;
+        this->_capacitat = origen._capacitat;
+
         for (size_t i = 0; i < origen.tamany(); i++)
             _dades[i] = origen._dades[i];
+    }
     else
         cout << "La pila que vols copia és buïda" << endl;
 }
 PilaEstatica::PilaEstatica(initializer_list<int> elements){
 
+    if (elements.size() <= TAMANY_MAXIM){
+        initializer_list<int>::iterator it;
+        for (it = elements.begin(); it != elements.end(); ++it)
+            afegirElement(*it);
+    }else
+        throw string("\n\e[1mEXCEPTION: L’estructura que vols inserir es més gran, que l'espai disponible\n\e[0m");
 }
 PilaEstatica::~PilaEstatica(){
     delete _dades;
@@ -51,7 +58,7 @@ int PilaEstatica::elementFront() const{
         throw string("\n\e[1mEXCEPTION: L’estructura està buïda\n\e[0m");
   
 }
-void PilaEstatica::mostrar_pila(){
+void PilaEstatica::imprimeix() const{
     if ( !esBuida() ){
         cout << "\n[";
         for (size_t i = 0; i < tamany()-1; i++)
