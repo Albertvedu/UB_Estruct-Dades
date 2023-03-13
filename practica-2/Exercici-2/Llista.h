@@ -57,44 +57,64 @@ Llista<Element>::Llista(initializer_list<Element> elements){
 }
 template <class Element>
 Llista<Element>::Llista(const Llista<Element>& origen){
-    cout << "bla: " << origen._cap->getNext()->getElement() << endl;
-    if (origen._cap->getNext()->getElement() == "Centinella")
-        cout << "lococo" << endl;
-    else cout << "no ses cocso" << endl;
-   // Llista<Element> *p = origen.principi();
+    Posicio<Element> *nodeNou; 
+    Posicio<Element> *nodeAnterior; 
 
-/*   while( p != NULL ){
-      encua( p->a_fitxa );
-      p = p->a_seg;
-  } */
+    if ( !origen.esBuida()){                //Llista origen no està buïda
 
+        Posicio<Element> *nodeNou = new NodeLlista<Element>(origen.principi());
+        this->_cap->setNext(nodeNou);
+        this->_cua->setPrevious(nodeNou);
+        this->_tamany ++;
+        nodeAnterior = nodeNou;
+
+        while ((origen.nfinal()->getElement() != "Centinella")){
+
+            nodeNou = new NodeLlista<Element>(origen.principi()++);
+            nodeNou->_node->setPrevious(nodeAnterior);
+            nodeNou->_node->setNext(this->_cua);
+            this->_cua->setPrevious(nodeNou);
+            this->_tamany ++;
+            cout << "Copiat element: " << origen->principi()++ << endl;
+        }
+    }else 
+        cout << "La llista d'entrada està buïda" << endl;
 }
 
 template <class Element>
 Llista<Element>::~Llista(){
     //Pre: --; Post: esborra tots els elements
-    /*   while( a_primer != NULL ){
+       while( this->_tamany != 0 ){
 
 
-          Node *aux = a_primer;
+          NodeLlista *aux = this->_cap->getNext();   // auxiliar = primer element
+          this->_cap->setNext(this->_cap->getNext()->getNext());       // primer element = segon element
+          delete aux;                                // esborra auxiliar
           a_primer = a_primer->a_seg;
           delete aux;
-      }
+          
+      } 
       a_darrer = NULL; */
 }
 
 template <class Element>
 int Llista<Element>::tamany() const{
-    return this->tamany;
+    return this->_tamany;
 }
 
 template <class Element>
 bool Llista<Element>::esBuida() const{
-    return this->tamany == 0;
+    //if (origen._cap->getNext()->getElement() == "Centinella"){
+    return this->_tamany == 0;
 }
 
 template <class Element>
-Posicio<Element> Llista<Element>::principi() const{} // return first position
+Posicio<Element> Llista<Element>::principi() const{// return first position
+    Posicio<Element> *p;
+    
+    return p->element();
+
+} 
 
 template <class Element>
 Posicio<Element> Llista<Element>::nfinal() const{} // return last position

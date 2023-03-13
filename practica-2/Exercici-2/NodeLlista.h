@@ -16,7 +16,7 @@ public:
     void setNext(NodeLlista<Element>* node);
     NodeLlista<Element>* getPrevious() const;
     void setPrevious(NodeLlista<Element>* node);
-
+    void setElement(Element l) ;  // CREAT PER MI
 
 private:
     Element _element;
@@ -51,6 +51,10 @@ const Element& NodeLlista<Element>::getElement() const{
 template <class Element>
 NodeLlista<Element>* NodeLlista<Element>::getNext() const{
     return this->_next;
+}
+template <class Element>  //// METODE MEU
+void setElement(Element l) {
+    this->_element = l;
 }
 
 template <class Element>

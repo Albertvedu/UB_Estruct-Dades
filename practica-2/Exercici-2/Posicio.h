@@ -22,6 +22,8 @@ public:
     Posicio<Element> anterior() const; // retorna l’anterior posició
     const Element &element() const;    // retorna el contingut de l’actual posició
     NodeLlista<Element> *elimina();
+
+    //NO ENTENC... PERQUÈ L'ADREÇA... JA HI HA ANTERIOR .. 
     void fixarAnterior(NodeLlista<Element> *node); // assigna l’adreça de l’anterior node
     void fixarSeguent(NodeLlista<Element> *node);  // assigna l’adreça del següent node
 
@@ -40,9 +42,12 @@ private:
 ########################################################*/
 
 template<class Element>
-Posicio<Element>::Posicio(NodeLlista<Element> *node):_node(node) {
-
-}
+Posicio<Element>::Posicio(NodeLlista<Element> *node) {
+    this->_node->_element = node->getElement();
+    this->_node->setNext(node->getNext);
+    this->_node->setPrevious(node->getPrevious);
+    
+}   
 
 template<class Element>
 Posicio<Element>::~Posicio() {
