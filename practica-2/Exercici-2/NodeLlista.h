@@ -16,7 +16,10 @@ public:
     void setNext(NodeLlista<Element>* node);
     NodeLlista<Element>* getPrevious() const;
     void setPrevious(NodeLlista<Element>* node);
-    void setElement(Element l) ;  // CREAT PER MI
+
+    // METODES CREATS PER MI
+    void setElement(Element l) ;  
+   
 
 private:
     Element _element;
@@ -30,18 +33,28 @@ private:
 
 template <class Element>
 NodeLlista<Element>::NodeLlista(){
-    this->_element = "Centinella";
-    this->_next = NULL;
-    this->_previous = NULL;
+    this->_element = "probando";
+    this->_next = nullptr;
+    this->_previous = nullptr;
 
 
 }
 
 template <class Element>
-NodeLlista<Element>::NodeLlista(Element element){}
+NodeLlista<Element>::NodeLlista(Element element){
+    this->_element = element;
+    this->_previous = _previous;
+    this->_next = nullptr;
+}
 
 template <class Element>
-NodeLlista<Element>::~NodeLlista(){}
+NodeLlista<Element>::~NodeLlista(){
+
+   /*  while (this->_next != nullptr)
+        delete this->_next;
+         */
+}
+
 
 template <class Element>
 const Element& NodeLlista<Element>::getElement() const{
@@ -50,11 +63,12 @@ const Element& NodeLlista<Element>::getElement() const{
 
 template <class Element>
 NodeLlista<Element>* NodeLlista<Element>::getNext() const{
-    return this->_next;
+    return _next;
 }
 template <class Element>  //// METODE MEU
-void setElement(Element l) {
-    this->_element = l;
+void NodeLlista<Element>::setElement(Element l) {
+    this->_element = l;  // AIXO DONA ERROR NO SE PERQUÈ
+
 }
 
 template <class Element>

@@ -4,7 +4,8 @@
 
 #ifndef POSICIO_H
 #define POSICIO_H
-
+#include <iostream>
+using namespace std;
 #include "NodeLlista.h"
 
 template <class Element>
@@ -12,7 +13,7 @@ class Posicio{
 
 public:
     Posicio(NodeLlista<Element> *node); // inicialitza la classe Posicio amb el node que rep com a paràmetre.
-    Posicio(const Posicio &origen);
+  //  Posicio(const Posicio &origen);
 
 
 
@@ -32,6 +33,10 @@ public:
     bool operator==(const Posicio &other) const; // sobrecarrega operador ==
     bool operator!=(const Posicio &other) const; // sobrecarrega operador !=
     const Element &operator*() const;            // sobrecarrega operador contingut
+
+        // METODES CREATS PER MI
+        NodeLlista<Element>* getNode();
+
 private:
     NodeLlista<Element> *_node;
 };
@@ -43,17 +48,22 @@ private:
 
 template<class Element>
 Posicio<Element>::Posicio(NodeLlista<Element> *node) {
-    this->_node->_element = node->getElement();
-    this->_node->setNext(node->getNext);
-    this->_node->setPrevious(node->getPrevious);
+    this->_node = node;   //->setElement( "BLAS"); // SETeLEMENT DONA ERROR.. DE MOMENT POSO MANUAL
+//    this->_node->setNext(node->getNext());
+//    this->_node->setPrevious(node->getPrevious());
     
 }   
 
 template<class Element>
 Posicio<Element>::~Posicio() {
+
     delete this->_node;
 }
 
+template <class Element>
+NodeLlista<Element>* Posicio<Element>::getNode(){
+    return this->_node;
+}
 template<class Element>
 Posicio<Element> Posicio<Element>::next() const {
     return this->_node->getNext();
@@ -68,7 +78,6 @@ template<class Element>
 const Element &Posicio<Element>::element() const {
     return this->_node->getElement();
 }
-
 template<class Element>
 NodeLlista<Element> *Posicio<Element>::elimina() {
     this->_node->getPrevious()->setNext(this->_node->getNext());
@@ -78,12 +87,12 @@ NodeLlista<Element> *Posicio<Element>::elimina() {
 
 template<class Element>
 void Posicio<Element>::fixarAnterior(NodeLlista<Element> *node) {
-
+    this->_node->setPrevious(node);
 }
 
 template<class Element>
 void Posicio<Element>::fixarSeguent(NodeLlista<Element> *node) {
-
+    this->_node->setNext(node);
 }
 
 template<class Element>
@@ -93,17 +102,17 @@ Posicio<Element> Posicio<Element>::operator++() const {
 
 template<class Element>
 Posicio<Element> Posicio<Element>::operator--() const {
-    return Posicio<Element>(nullptr);
+    return this->anterior();
 }
 
 template<class Element>
 bool Posicio<Element>::operator==(const Posicio &other) const {
-    return false;
+    return this->_node == other._node;
 }
 
 template<class Element>
 bool Posicio<Element>::operator!=(const Posicio &other) const {
-    return false;
+    return this->_node != other._node;
 }
 
 template<class Element>

@@ -57,12 +57,11 @@ Llista<Element>::Llista(initializer_list<Element> elements){
 }
 template <class Element>
 Llista<Element>::Llista(const Llista<Element>& origen){
-    Posicio<Element> *nodeNou; 
+    Posicio<Element> *nodeNou;
     Posicio<Element> *nodeAnterior; 
 
-    if ( !origen.esBuida()){                //Llista origen no està buïda
-
-        Posicio<Element> *nodeNou = new NodeLlista<Element>(origen.principi());
+   /*  if ( !origen.esBuida()){                //Llista origen no està buïda
+        nodeNou = new Posicio<Element>(new NodeLlista<Element>(origen.principi()));
         this->_cap->setNext(nodeNou);
         this->_cua->setPrevious(nodeNou);
         this->_tamany ++;
@@ -70,7 +69,7 @@ Llista<Element>::Llista(const Llista<Element>& origen){
 
         while ((origen.nfinal()->getElement() != "Centinella")){
 
-            nodeNou = new NodeLlista<Element>(origen.principi()++);
+            nodeNou = new NodeLlista<Element>(origen.principi());
             nodeNou->_node->setPrevious(nodeAnterior);
             nodeNou->_node->setNext(this->_cua);
             this->_cua->setPrevious(nodeNou);
@@ -78,7 +77,7 @@ Llista<Element>::Llista(const Llista<Element>& origen){
             cout << "Copiat element: " << origen->principi()++ << endl;
         }
     }else 
-        cout << "La llista d'entrada està buïda" << endl;
+        cout << "La llista d'entrada està buïda" << endl;*/
 }
 
 template <class Element>
@@ -86,15 +85,14 @@ Llista<Element>::~Llista(){
     //Pre: --; Post: esborra tots els elements
        while( this->_tamany != 0 ){
 
-
-          NodeLlista *aux = this->_cap->getNext();   // auxiliar = primer element
+          NodeLlista<Element> *aux = this->_cap->getNext();   // auxiliar = primer element
           this->_cap->setNext(this->_cap->getNext()->getNext());       // primer element = segon element
           delete aux;                                // esborra auxiliar
-          a_primer = a_primer->a_seg;
-          delete aux;
+          //a_primer = a_primer->a_seg;
+          //delete aux;
           
       } 
-      a_darrer = NULL; */
+      //a_darrer = NULL; */
 }
 
 template <class Element>
@@ -104,7 +102,7 @@ int Llista<Element>::tamany() const{
 
 template <class Element>
 bool Llista<Element>::esBuida() const{
-    //if (origen._cap->getNext()->getElement() == "Centinella"){
+
     return this->_tamany == 0;
 }
 
@@ -112,7 +110,7 @@ template <class Element>
 Posicio<Element> Llista<Element>::principi() const{// return first position
     Posicio<Element> *p;
     
-    return p->element();
+    return p->_node;
 
 } 
 
@@ -121,16 +119,46 @@ Posicio<Element> Llista<Element>::nfinal() const{} // return last position
 
 template <class Element>
 // Reverse iteration
-Posicio<Element> Llista<Element>::rprincipi() const{} // return first position
+Posicio<Element> Llista<Element>::rprincipi() const{// return first position
+    return this->_cap->getNext();
+}
 
 template <class Element>
-Posicio<Element> Llista<Element>::rfinal() const{} // return last position
+Posicio<Element> Llista<Element>::rfinal() const{
+    cout << "\nCUA PREVIOUS: " << this->_cua->getPrevious() << endl;
+    return this->_cua->getPrevious() ;
+}
 
 template <class Element>
-void Llista<Element>::inserirDespres(Posicio<Element>& position, const Element& element){}
+void Llista<Element>::inserirDespres(Posicio<Element>& position, const Element& element){
+    //TODO falta asignar element
+
+    //Al node nou, li posiciona el anterior i posterior
+    position.fixarSeguent(this->_cua);
+    position.fixarAnterior(this->_cua->getPrevious());  // rfinal() NO FUNCIONA, NO VEIG PERQUÈ
+    //Al ultim node, posa com a NEXT al node nou
+    this->_cua->getPrevious()->setNext(position.getNode());
+    // Anterior a la cua, posiciona el node nou
+    this->_cua->setPrevious(position.getNode());
+    this->_tamany ++;
+    cout << position.getNode() <<  "  ... NODE afegit en última posició" << endl;
+}
 
 template <class Element>
-void Llista<Element>::inserirAbans(Posicio<Element>& position, const Element& element){}
+void Llista<Element>::inserirAbans(Posicio<Element>& position, const Element& element){
+    //TODO falta asignar element
+
+    //Al node nou, li posiciona el anterior i posterior
+    position.fixarSeguent(this->_cap->getNext());
+    position.fixarAnterior(this->_cap);
+    //Al primer node, posa com a PREVIOUS al node nou
+    this->_cap->getNext()->setPrevious(position.getNode());
+    // Anterior a la cua, posiciona el node nou
+    this->_cap->setNext(position.getNode());
+    this->_tamany ++;
+    cout << position.getNode() <<  "  ... NODE afegit en primera posició" << endl;
+
+}
 
 template <class Element>
 void Llista<Element>::inserirPrincipi(const Element& element){}
