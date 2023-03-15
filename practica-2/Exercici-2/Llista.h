@@ -83,16 +83,13 @@ Llista<Element>::Llista(const Llista<Element>& origen){
 template <class Element>
 Llista<Element>::~Llista(){
     //Pre: --; Post: esborra tots els elements
-       while( this->_tamany != 0 ){
+       while( this->principi() != nullptr ){
 
-          NodeLlista<Element> *aux = this->_cap->getNext();   // auxiliar = primer element
-          this->_cap->setNext(this->_cap->getNext()->getNext());       // primer element = segon element
+          Posicio<Element> *aux = this->principi();   // auxiliar = primer element
+          elimina(aux);      // primer element = segon element
           delete aux;                                // esborra auxiliar
-          //a_primer = a_primer->a_seg;
-          //delete aux;
-          
       } 
-      //a_darrer = NULL; */
+
 }
 
 template <class Element>
@@ -167,4 +164,8 @@ template <class Element>
 void Llista<Element>::inserirFinal(const Element& element){}
 
 template <class Element>
-void Llista<Element>::elimina(Posicio<Element>& position){}
+void Llista<Element>::elimina(Posicio<Element>& position){
+    position.next().fixarAnterior(position.anterior());
+    position.anterior().fixarSeguent(position.next());
+    cout << "Node eliminat" << endl;
+}
