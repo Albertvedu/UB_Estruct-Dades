@@ -1,0 +1,3 @@
+/home/albert/Projects_VS/UB_Estruct-Dades/practica-2/Exercici-3/cmake-build-debug/CMakeFiles/Exercici_3.dir
+/home/albert/Projects_VS/UB_Estruct-Dades/practica-2/Exercici-3/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/albert/Projects_VS/UB_Estruct-Dades/practica-2/Exercici-3/cmake-build-debug/CMakeFiles/rebuild_cache.dir

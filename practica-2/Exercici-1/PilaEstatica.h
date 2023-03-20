@@ -28,8 +28,8 @@ public:
 private:
     enum {TAMANY_MAXIM = 3};
     int _capacitat;
-    int _front{};    // top de la pila
-    int* _dades{};  //stack
+    int _front;    // top de la pila
+    int* _dades;  //stack
 };
 
 #endif

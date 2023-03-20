@@ -19,6 +19,7 @@ PilaEstatica::PilaEstatica(const PilaEstatica &origen){
 
 
     if ( !origen.esBuida()){
+        
         this->_front = origen._front;
         this->_capacitat = origen._capacitat;
 
