@@ -1,7 +1,11 @@
+#include <iostream>
 #include <cstdlib>
 #include <csignal>
 #include "Llista.h"
 #include "Posicio.h"
+#include "Poco.h"
+//#include "Clinica.h"
+#include "Mascota.h"
 
 using namespace std;
 
@@ -27,7 +31,7 @@ int llegirStringTOint(string text, int limitA, int limitB) {
             cout << text;
             cin >> lectura;
             if(!esNumero(lectura) )
-                throw invalid_argument( "Dades introduïdes incorrectes" );
+                throw invalid_argument( "Dades introduïdes incorrectes");
             compare(atoi(lectura), limitA, limitB );
             break;
         }catch(const std::exception& e){
@@ -53,6 +57,10 @@ void menu(int &opcio, Llista<string>* opMenu){
     print(opMenu);
     opcio = llegirStringTOint("\nOpció: ", 0,opMenu->tamany()-1);
 }
+void llegirArxiu(){
+//    Clinica c = new Clinica("Clinica");
+//    c.afegirClientsArxiu("/home/albert/Projects_VS/UB_Estruct-Dades/practica-2/Exercici-3/clients4Gats.txt");
+}
 int main(){
     int opcio;
 
@@ -61,6 +69,20 @@ int main(){
                               "0. Sortir"});
 
     menu(opcio, opMenu);
-    cout << "ik" << endl;
+
+
+    Llista<Client>* la;    // = new Llista<Client>();
+
+
+
+//    l1->inserirPrincipi("gos");
+//    l1->inserirFinal("gat");
+//    l1->inserirFinal("LLORO");
+//    l1->inserirFinal("serp");
+//    Llista<string>* l2 = new Llista<string>(*l1);
+
+//
+
+    //llegirArxiu();
     return 0;
 }

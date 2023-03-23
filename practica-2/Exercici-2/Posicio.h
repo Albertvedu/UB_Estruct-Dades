@@ -54,7 +54,7 @@ Posicio<Element>::Posicio(NodeLlista<Element> *node) {
 template <class Element>
 Posicio<Element>::~Posicio() {
 
-    //delete this->_node;  // Donar error si ho activo
+    //delete this->_node;  
 }
 template <class Element>
 NodeLlista<Element>* Posicio<Element>::getNode(){
@@ -90,11 +90,14 @@ NodeLlista<Element> *Posicio<Element>::elimina() {
 template<class Element>
 void Posicio<Element>::fixarAnterior(NodeLlista<Element> *node) {
     this->_node->setPrevious(node);
+    node->setNext(this->_node);
+    
 }
 
 template<class Element>
 void Posicio<Element>::fixarSeguent(NodeLlista<Element> *node) {
     this->_node->setNext(node);
+    node->setPrevious(this->_node);
 }
 
 template<class Element>

@@ -86,8 +86,6 @@ NodeLlista<Element> * inserirEnUnaPosicio(const int &pos, Llista<Element> *pLlis
 
     for (Posicio<Element> itr = pLlista->principi(); itr != pLlista->final(); itr = ++itr){
 
-        cout << itr.getNode() << "  paraula: " << itr.element() << endl;
-
         if ( contador == pos )
             return itr.getNode();
         contador ++; // contador aqui perquè l'exemple del anunciat funciona aixi.. primer element és zero.
@@ -135,7 +133,7 @@ void print(Llista<string> *l1) {
     try {
         cout << ".............." << endl;
         for (Posicio<string> itr = l1->principi(); itr != l1->final().next(); itr = ++itr)
-            cout << itr.getNode() << "  paraula: " << itr.element() << endl;
+            cout << itr.element() << endl;
         cout << ".............." << endl;
     }catch(const std::exception& e){
         cerr << e.what() << '\n';
@@ -146,7 +144,7 @@ void printReverse(Llista<string> *l1 ) {
     try{
         cout << ".............." << endl;
         for (Posicio<string> itr = l1->final(); itr != l1->principi().anterior(); itr = --itr)
-            cout << itr.getNode() << "  paraula: " << itr.element() << endl;
+            cout << itr.element() << endl;
         cout << ".............." << endl;
     }catch(const std::exception& e){
         cerr << e.what() << '\n';
@@ -166,63 +164,65 @@ int main(){
     string paraula, opcio;
     int pos;
 
-//    int nParaules =llegirStringTOint("Introdueix quantes paraules vols inserir: ", 0, INT16_MAX);
-//    if (nParaules > 0) primerNode(l1, nParaules);
-//
-//    while( nParaules > 0){
-//
-//
-//        llegirParaula(paraula);
-//        if(inserirDades("Inserir al principi? (s/n): "))
-//            l1->inserirPrincipi( paraula);
-//        else{
-//            if(inserirDades("Inserir al final? (s/n): "))
-//                l1->inserirFinal(paraula);
-//            else{
-//                pos = llegirPos(l1->tamany());
-//
-//                if (inserirDades("Inserir abans de la posició? (s/n): ")) {
-//                    Posicio<string> p = inserirEnUnaPosicio(pos, l1);
-//                    l1->inserirAbans(p, paraula);
-//                }
-//                else{
-//                    Posicio<string> p1 = inserirEnUnaPosicio(pos, l1);
-//
-//
-//                    l1->inserirDespres(p1, paraula);
-//                }
-//            }
-//        }
-//        nParaules --;
-//
-//        if (nParaules == 0){
-//            cout << "Iteració (amb position) endavant: " << endl;
-//            print(l1);
-//            cout << "Iteració (amb position) endarrera: " << endl;
-//            printReverse(l1);
-//        }
-//    }
+    try{
+          int nParaules =llegirStringTOint("Introdueix quantes paraules vols inserir: ", 0, INT16_MAX);
+    if (nParaules > 0) primerNode(l1, nParaules);
+
+    while( nParaules > 0){
 
 
-    Llista<string> la = {"Albert","Maria", "Benjamin", "Chuli"};
+        llegirParaula(paraula);
+        if(inserirDades("Inserir al principi? (s/n): "))
+            l1->inserirPrincipi( paraula);
+        else{
+            if(inserirDades("Inserir al final? (s/n): "))
+                l1->inserirFinal(paraula);
+            else{
+                pos = llegirPos(l1->tamany());
+
+                if (inserirDades("Inserir abans de la posició? (s/n): ")) {
+                    Posicio<string> p = inserirEnUnaPosicio(pos, l1);
+                    l1->inserirAbans(p, paraula);
+                }
+                else{
+                    Posicio<string> p1 = inserirEnUnaPosicio(pos, l1);
+                    l1->inserirDespres(p1, paraula);
+                }
+            }
+        }
+        nParaules --;
+
+        if (nParaules == 0){
+            cout << "Iteració (amb position) endavant: " << endl;
+            print(l1);
+            cout << "Iteració (amb position) endarrera: " << endl;
+            printReverse(l1);
+        }
+    } 
+    }catch(const std::exception& e){
+        cerr << e.what() << '\n';
+        sleep(1);
+    }
+  
+
+    
+        Llista<string>* la = new Llista<string> ({"Albert","Maria", "Benjamin", "Chuli"});
+
+        la->inserirPrincipi("gos");
+        la->inserirFinal("gat");
+        la->inserirFinal("LLORO");
+        la->inserirFinal("serp");
+
+        Posicio<string> p1 = inserirEnUnaPosicio(11, la);
+        la->inserirDespres(p1, "Nou");
 
 
-    //cout << l1->principi();
-//    l1->inserirPrincipi("gos");
-//    l1->inserirFinal("gat");
-//    l1->inserirFinal("LLORO");
-//    l1->inserirFinal("serp");
-//    Llista<string>* l2 = new Llista<string>(*l1);
+        /*  Posicio<string> p = inserirEnUnaPosicio(2, la);
+         l1->inserirDespres(p, "otro");
 
-//
-//    Posicio<string> p = inserirEnUnaPosicio(2, l1);
-//    l1->inserirDespres(p, "otro");
-//    cout << " .... " ; p.getNode();
-//
-//    Posicio<string> p1 = inserirEnUnaPosicio(1, l1);
-//    l1->inserirAbans(p1,"mandarina");
-    // l1.inserirDespres(p, "mandarina");
-
+         Posicio<string> p1 = inserirEnUnaPosicio(1, la);
+         la->inserirAbans(p1,"mandarina"); */
+        print(la);
 
 
 

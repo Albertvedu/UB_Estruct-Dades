@@ -104,9 +104,7 @@ Llista<Element>::~Llista(){
             delete aux;                                // esborra auxiliar
             this->_tamany --;
         }
-
         this->_cua = nullptr;
-
 
     }catch(const std::exception& e){
         cerr << e.what() << '\n';
@@ -154,14 +152,10 @@ void Llista<Element>::inserirDespres(Posicio<Element>& position, const Element& 
     try{
         NodeLlista<Element>* nodeNou = new NodeLlista<Element>(element);
 
-        //Al node nou, li posiciona el anterior i posterior
-        nodeNou->setNext(position.next().getNode());
-        nodeNou->setPrevious(position.getNode());
-
         // Al següent a position, posiciona com anterior el node nou
         position.next().fixarAnterior(nodeNou);
 
-        //Al ultim node, posa com a NEXT al node nou
+        //A posicio, posa com a NEXT al node nou
         position.fixarSeguent(nodeNou);
 
         this->_tamany ++;
@@ -180,14 +174,10 @@ void Llista<Element>::inserirAbans(Posicio<Element>& position, const Element& el
 
         NodeLlista<Element> *nodeNou = new NodeLlista<Element>(element);  // o Posicio per paràmetres o fer servir getNode()
 
-        //Al node nou, li posiciona el anterior i posterior
-        nodeNou->setNext(position.getNode());
-        nodeNou->setPrevious(position.anterior().getNode());
-
-        // Al següent a position, posiciona com anterior el node nou
+        // Al anterior a position, posiciona com anterior el node nou
         position.anterior().fixarSeguent(nodeNou);
 
-        //Al ultim node, posa com a NEXT al node nou
+        //A posicio , posa com a ANTERIOR al node nou
         position.fixarAnterior(nodeNou);
 
         this->_tamany++;
@@ -219,21 +209,18 @@ void Llista<Element>::inserirPrincipi(const Element& element){
 
 template <class Element>
 void Llista<Element>::inserirFinal(const Element& element){
-    try{
-        Posicio<string> nodeNou = new NodeLlista<string>(element);
 
-        //Al node nou, li posiciona el anterior i posterior
-        nodeNou.fixarSeguent(this->_cua);
-        nodeNou.fixarAnterior(this->_cua->getPrevious());
+    NodeLlista<string>* nodeNou = new NodeLlista<string>(element);
 
-        //Enllaço Cap i Cua amb el nodeNou
-        this->_cua->getPrevious()->setNext(nodeNou.getNode());
-        this->_cua->setPrevious(nodeNou.getNode());
-        this->_tamany ++;
-    }catch(const std::exception& e){
-        cerr << e.what() << '\n';
-        sleep(1);
-    }
+    //Al node nou, li posiciona el anterior i posterior
+    nodeNou->setNext(this->_cua);
+    nodeNou->setPrevious(this->_cua->getPrevious());
+
+    //Enllaço Cap i Cua amb el nodeNou
+    this->_cua->getPrevious()->setNext(nodeNou);
+    this->_cua->setPrevious(nodeNou);
+    this->_tamany ++;
+
 }
 
 template <class Element>

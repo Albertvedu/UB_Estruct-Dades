@@ -6,10 +6,10 @@
 
 
 
-poco::poco() {
+Poco::Poco() {
     this->_sor = "kokp";
 }
 
-string poco::getSor() {
+string Poco::getSor(){
     return _sor;
 }

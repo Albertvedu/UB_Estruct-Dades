@@ -7,7 +7,6 @@
 using  namespace std;
 
 template <class Element>
-
 class Llista{
 public:
 
@@ -66,6 +65,7 @@ Llista<Element>::Llista(const Llista<Element>& origen){
             crearCentinelles();
 
             // AUX = primer element de la llista a copiar
+            origen.
             aux = origen.principi().getNode();
             ant = this->_cap;
 
@@ -220,15 +220,15 @@ void Llista<Element>::inserirPrincipi(const Element& element){
 template <class Element>
 void Llista<Element>::inserirFinal(const Element& element){
     try{
-        Posicio<string> nodeNou = new NodeLlista<string>(element);
+        NodeLlista<string>* nodeNou = new NodeLlista<string>(element);
 
         //Al node nou, li posiciona el anterior i posterior
-        nodeNou.fixarSeguent(this->_cua);
-        nodeNou.fixarAnterior(this->_cua->getPrevious());
+        nodeNou->setNext(this->_cua);
+        nodeNou->setPrevious(this->_cua->getPrevious());
 
         //Enllaço Cap i Cua amb el nodeNou
-        this->_cua->getPrevious()->setNext(nodeNou.getNode());
-        this->_cua->setPrevious(nodeNou.getNode());
+        this->_cua->getPrevious()->setNext(nodeNou);
+        this->_cua->setPrevious(nodeNou);
         this->_tamany ++;
     }catch(const std::exception& e){
         cerr << e.what() << '\n';

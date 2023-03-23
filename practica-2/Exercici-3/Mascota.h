@@ -13,7 +13,7 @@ public:
     ~Mascota();
 
     //GETTER'S SETTER'S
-    
+
     const string &getNom() const;
     void setNom(const string &nom);
     const string &getTipus() const;

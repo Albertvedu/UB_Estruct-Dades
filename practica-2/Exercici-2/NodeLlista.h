@@ -74,17 +74,16 @@ NodeLlista<Element>* NodeLlista<Element>::getNext() const{
 }
 
 template <class Element>
-void NodeLlista<Element>::setNext(NodeLlista<Element>* node){
-    this->_next = node;
-}
-
-template <class Element>
 NodeLlista<Element>* NodeLlista<Element>::getPrevious() const{
     if (_previous == nullptr)
         throw invalid_argument( "Punter és NULL" );
     return this->_previous;
 }
 
+template <class Element>
+void NodeLlista<Element>::setNext(NodeLlista<Element>* node){
+    this->_next = node;
+}
 template <class Element>
 void NodeLlista<Element>::setPrevious(NodeLlista<Element>* node){
     this->_previous = node;

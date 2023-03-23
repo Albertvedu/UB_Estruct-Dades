@@ -5,10 +5,10 @@
 #define NODELLISTA_H
 
 #include <iostream>
+#include "Client.h"
 using namespace std;
 
 template <class Element>
-
 class NodeLlista{
 public:
     NodeLlista();
@@ -27,16 +27,15 @@ private:
 };
 
 /*########################################################
-#####           .CPP                                 ###
-########################################################*/
+  #####           .CPP                                 ###
+  ########################################################*/
 
 template <class Element>
 NodeLlista<Element>::NodeLlista(){
-    this->_element = "CENTINELLA";
+
+    this->_element = new Client ("Centinella", "b", "a");
     this->_next = nullptr;
     this->_previous = nullptr;
-
-
 }
 
 template <class Element>

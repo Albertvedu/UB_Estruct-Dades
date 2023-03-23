@@ -10,9 +10,9 @@ using namespace std;
 //#include "Llista.h"
 
 
-class poco {
+class Poco {
 public:
-    poco();
+    Poco();
     void getSor();
 
 private:
