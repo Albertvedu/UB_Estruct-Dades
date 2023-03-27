@@ -1,0 +1,8 @@
+El últim dia, em vaig adonar que és demanava fer un Main per cridar qualsevol dels tres exercicis.
+Al fer-ho, me començat a donar errors, al fer copy arxius d'aqui cap allà.
+
+Mi hi passat hores, i no he conseguit que funcionés, ha sigut horrible.
+
+Per això envio els tres exercicis fets, però en tres Main's.
+
+

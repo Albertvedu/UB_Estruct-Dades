@@ -185,7 +185,7 @@ void Clinica::afegirClientsArxiu(string ruta_arxiu){
     int edat;
     char x;
     //todo cambiar adreça
-    if ( ifstream arxiu{ "clients4Gats.txt"}) {
+    if ( ifstream arxiu{ ruta_arxiu}) {
 
         while (  !arxiu.eof() ) {
             arxiu >> x;
