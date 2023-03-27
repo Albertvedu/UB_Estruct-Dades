@@ -1,0 +1,31 @@
+Introdueix quantes paraules vols inserir: 5
+Introdueix una paraula: gos
+Inserir al principi? (s/n) s
+Introdueix una paraula: gat
+Inserir al principi? (s/n) n
+Inserir al final? (s/n) s
+Introdueix una paraula: lloro
+Inserir al principi? (s/n) n
+Inserir al final? (s/n) n
+A quina posició vols inserir? 1
+Inserir abans de la posició? (s/n) s
+Introdueix una paraula: serp
+Inserir al principi? (s/n) n
+Inserir al final? (s/n) s
+Introdueix una paraula: hàmster
+Inserir al principi? (s/n) n
+Inserir al final? (s/n) n
+A quina posició vols inserir? 2
+Inserir abans de la posició? (s/n) n
+Iteració (amb position) endavant:
+gos
+lloro
+gat
+hàmster
+serp
+Iteració (amb position) endarrere:
+serp
+hàmster
+gat
+lloro
+gos

@@ -1,0 +1,8 @@
+//
+// Created by albert on 26/03/23.
+//
+
+#ifndef PRACTICA_2_MAINEXERCICI1_H
+#define PRACTICA_2_MAINEXERCICI1_H
+
+#endif //PRACTICA_2_MAINEXERCICI1_H
