@@ -1,24 +1,67 @@
- #include <iostream>
+#include "MainExercici1.h"
+#include <iostream>
 #include <vector>
 #include <stdexcept>
 
 
 using namespace std;
+MainExercici1::MainExercici1(){
+    
+}
 
-#include "PilaEstatica.h"
+MainExercici1::~MainExercici1(){
+    
+}
 
-void compare(int valor, int limitA, int limitB){
+void MainExercici1::inici(){
+    //PilaEstatica p(23);  //Aqui utilitzo el constructor amb paràmetre (int tamany_maxim = TAMANY_MAXIM)
+    PilaEstatica p;        // Aqui constructor per defecta. Que va al mateix lloc, no sé perquè.
+    // El problema és que el primer no fa servir la constant TAMANY_MAXIM i llavors dins dels mètodes la cosa falla
+
+    vector <string> opMenu = {"1. Inserir element a la pila ","2. Treure element de la pila","3. Consultar el top de la pila",
+                              "4. Imprimir tot el contingut de la PilaEstàtica","5. Imprimir la posició del top de la pila",
+                              "6. Sortir"};
+    int opcio;
+    casProva1(p);
+
+    do{
+        menu(opcio, opMenu);
+        switch (opcio){
+            case 1:
+                empilar(p);
+                break;
+            case 2:
+                desempilar(p);
+                break;
+            case 3:
+                veureCim(p);
+                break;
+            case 4:
+                veurePila(p);
+                break;
+            case 5:
+                posicioCim(p);
+                break;
+            default:
+                break;
+        }
+    } while (opcio != 6);
+
+    cout << "\nPassiu bé...\n" << endl;
+}
+
+void MainExercici1::compare(int valor, int limitA, int limitB){
     if (valor < limitA || valor > limitB)
         throw invalid_argument( "Dades introduïdes incorrectes" );
 }
-bool esNumero(char *lectura) {
+bool MainExercici1::esNumero(char *lectura) {
     for( ; *lectura; ++lectura )
         if( !isdigit(*lectura) )
             return false;
     return true;
 }
 
-int llegirStringTOint(string text, int limitA, int limitB) {
+int MainExercici1::llegirStringTOint(string text, int limitA, int limitB) {
     // Post: retorna lectura Integer o error si no és Integer
 
     char lectura[100];
@@ -40,7 +83,7 @@ int llegirStringTOint(string text, int limitA, int limitB) {
     return atoi(lectura);
 }
 
-void menu(int &opcio, vector<string> opMenu){
+void MainExercici1::menu(int &opcio, vector<string> opMenu){
     
     cout << "\n\e[1m############   MENU   ############\e[0m" << endl;
     cout << "\nHola " <<  ", que vols fer? " << endl;
@@ -50,7 +93,7 @@ void menu(int &opcio, vector<string> opMenu){
         cout << "\n" << *it << endl;
     opcio = llegirStringTOint("\nOpció: ", 1,opMenu.size());
 }
-void empilar(PilaEstatica &p){
+void MainExercici1::empilar(PilaEstatica &p){
     int nombre;
     nombre = llegirStringTOint("Insereix el nombre que vols afegir: ", INT8_MIN, INT8_MAX);
     try{
@@ -61,7 +104,7 @@ void empilar(PilaEstatica &p){
     }
 
 }
-void desempilar(PilaEstatica &p){
+void MainExercici1::desempilar(PilaEstatica &p){
     try{
         int element = p.elementFront();
         p.treureElement();
@@ -71,7 +114,7 @@ void desempilar(PilaEstatica &p){
     }
    
 }
-void veureCim(PilaEstatica &p){
+void MainExercici1::veureCim(PilaEstatica &p){
     try{
        cout << "\nFront: " << p.elementFront() << endl;
     }catch( string e){
@@ -79,7 +122,7 @@ void veureCim(PilaEstatica &p){
     }
     
 }
-void veurePila(PilaEstatica &p){
+void MainExercici1::veurePila(PilaEstatica &p){
     try{
        p.imprimeix();
     }catch( string e){
@@ -87,10 +130,10 @@ void veurePila(PilaEstatica &p){
     }
     
 }
-void posicioCim(PilaEstatica &p){
+void MainExercici1::posicioCim(PilaEstatica &p){
     cout << "La posició del cim és: " << p.tamany() -1;
 }
-void casProva1(PilaEstatica &p){
+void MainExercici1::casProva1(PilaEstatica &p){
     //AFEGIR 10
     p.afegirElement(10);
     cout << "\nElement " << 10 << " agregat" << endl;
@@ -148,40 +191,4 @@ void casProva1(PilaEstatica &p){
         cout << e << endl;
     }
 
-}
-int main(){
-    //PilaEstatica p(23);  //Aqui utilitzo el constructor amb paràmetre (int tamany_maxim = TAMANY_MAXIM)
-    PilaEstatica p;        // Aqui constructor per defecta. Que va al mateix lloc, no sé perquè.
-    // El problema és que el primer no fa servir la constant TAMANY_MAXIM i llavors dins dels mètodes la cosa falla
-
-    vector <string> opMenu = {"1. Inserir element a la pila ","2. Treure element de la pila","3. Consultar el top de la pila",
-                              "4. Imprimir tot el contingut de la PilaEstàtica","5. Imprimir la posició del top de la pila",
-                              "6. Sortir"};
-    int opcio;
-    casProva1(p);
-
-    do{
-        menu(opcio, opMenu);
-        switch (opcio){
-            case 1:
-                empilar(p);
-                break;
-            case 2:
-                desempilar(p);
-                break;
-            case 3:
-                veureCim(p);
-                break;
-            case 4:
-                veurePila(p);
-                break;
-            case 5:
-                posicioCim(p);
-                break;
-            default:
-                break;
-        }
-    } while (opcio != 6);
-
-    cout << "\nPassiu bé...\n" << endl;
 }

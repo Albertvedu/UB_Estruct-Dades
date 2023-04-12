@@ -76,7 +76,7 @@ Llista<Element>::Llista(const Llista<Element> &origen){
         crearCentinelles();
 
         // AUX = primer element de la llista a copiar
-        aux = origen.principi().getNode(); // TODO Trobat error... getNode() NO EXISTEIX
+        aux = origen.principi().getNode(); // TODO error... getNode() NO EXISTEIX
         ant = this->_cap;
 
         // Bucle fins trobar final llista.
@@ -222,4 +222,5 @@ void Llista<Element>::crearCentinelles(){
     this->_cap->fixarSeguent(this->_cua);
     this->_cua->fixarAnterior(this->_cap);
 }
-#endif //PRACTICA_2_LLISTA_H
+
+#endif

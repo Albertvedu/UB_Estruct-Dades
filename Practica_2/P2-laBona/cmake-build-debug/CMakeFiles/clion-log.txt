@@ -1,0 +1,1 @@
+CMakeLists.txt not found in /home/albert/Projects_VS/UB_Estruct-Dades/Practica_2/P2-laBona Select CMakeLists.txt

@@ -1,29 +1,30 @@
-#include <iostream>
-
+#include "MainExercici3.h"
 #include <iostream>
 #include <cstdlib>
 #include <csignal>
 #include <stdexcept>
-#include "Llista.h"
-#include "NodeLlista.h"
-#include "Posicio.h"
-#include "Clinica.h"
+using namespace std;
 
 
+MainExercici3::MainExercici3(){
+   // inici();
+}
 
+MainExercici3::~MainExercici3(){
 
-void compare(int valor, int limitA, int limitB){
+}
+void MainExercici3::compare(int valor, int limitA, int limitB){
     if (valor < limitA || valor > limitB)
         throw invalid_argument( "Dades introduïdes incorrectes" );
 }
-bool esNumero(char *lectura) {
+bool MainExercici3::esNumero(char *lectura) {
     for( ; *lectura; ++lectura )
         if( !isdigit(*lectura) )
             return false;
     return true;
 }
 
-int llegirStringTOint(string text, int limitA, int limitB) {
+int MainExercici3::llegirStringTOint(string text, int limitA, int limitB) {
     // Post: retorna lectura Integer o error si no és Integer
 
     char lectura[100];
@@ -45,7 +46,7 @@ int llegirStringTOint(string text, int limitA, int limitB) {
 
     return atoi(lectura);
 }
-void print(Llista<string>* l1) {
+void MainExercici3::print(Llista<string>* l1) {
     try {
         for (Posicio<string> itr = l1->principi(); itr != l1->final().next(); itr = ++itr)
             cout << itr.element() << endl;
@@ -55,14 +56,15 @@ void print(Llista<string>* l1) {
         sleep(1);
     }
 }
-void menu(int &opcio, Llista<string>* opMenu){
+
+void MainExercici3::menu(int &opcio, Llista<string>* opMenu){
     cout << "\n\n\e[1m############   MENU   ############\e[0m" << endl;
     cout << "\nHola " <<  ", que vols fer? " << endl;
     print(opMenu);
     opcio = llegirStringTOint("\nOpció: ", 0,opMenu->tamany()-1);
 }
 
-char inserirChar( string text){
+char MainExercici3::inserirChar( string text){
     string opcio, op;
     do{
         try {
@@ -79,7 +81,7 @@ char inserirChar( string text){
 
     return opcio[0];
 }
-Mascota afegirMascota(){
+Mascota MainExercici3::afegirMascota(){
     string nom, tipus;
     char genere;
     int edat;
@@ -92,7 +94,7 @@ Mascota afegirMascota(){
     Mascota mascota = Mascota(nom, tipus, genere,edat);
     return mascota;
 }
-void afegirClient(Clinica *clinica) {
+void MainExercici3::afegirClient(Clinica *clinica) {
     string nom, poblacio, telefon;
     char x;
     try {
@@ -113,14 +115,14 @@ void afegirClient(Clinica *clinica) {
         sleep(1);
     }
 }
-void eliminarClient(Clinica *clinica){
+void MainExercici3::eliminarClient(Clinica *clinica){
     string telefon;
     cout << "\n\e[1mEliminar client\e[0m" << endl;
     cout << "Introdueix el teléfon del client a eliminar: ";
     cin >> telefon;
     clinica->eliminaClient(telefon);
 }
-void afegirMascotaClient(Clinica *clinica){
+void MainExercici3::afegirMascotaClient(Clinica *clinica){
     string telefon;
     cout << "\n\e[1mAfegir mascota\e[0m" << endl;
     cout << "Introdueix el teléfon del client: ";
@@ -129,7 +131,7 @@ void afegirMascotaClient(Clinica *clinica){
     Mascota mascota = afegirMascota();
     clinica->afegeixMascotaClient(telefon, mascota);
 }
-void eliminarMascota(Clinica *clinica){
+void MainExercici3::eliminarMascota(Clinica *clinica){
     string telefon, nom;
     cout << "\n\e[1mEliminar mascota\e[0m" << endl;
     cout << "Introdueix el teléfon del client: ";
@@ -138,58 +140,57 @@ void eliminarMascota(Clinica *clinica){
     cin >> nom;
     clinica->eliminaMascotaClient(telefon, nom);
 }
-void imprimirMascotesClient(Clinica *clinica){
+void MainExercici3::imprimirMascotesClient(Clinica *clinica){
     string telefon;
     cout << "\n\e[1mMostrar mascotes d'un client\e[0m" << endl;
     cout << "Introdueix el teléfon del client: ";
     cin >> telefon;
     clinica->mostraMascotesClient(telefon);
 }
-int main(){
- int opcio;
-    try {
-        Clinica *clinica = new Clinica("Clínica Uno");
-        Llista<string> *opMenu = new Llista<string>(
-                {"1. Afegir Client ", "2. Eliminar Client", "3. Afegir Mascota a un client",
-                 "4. Eliminar Mascota d'un client", "5. Imprimir clients clinica",
-                 "6. Imprimir les mascotes d'un client",
-                 "0. Sortir"});
-        clinica->afegirClientsArxiu("/home/albert/Projects_VS/UB_Estruct-Dades/Practica_2/exercici3/clients4Gats.txt");
-        clinica->imprimir();
-        do {  //Considero deixar el frond-end al Main i el back-end a les classes particulars.
-            try {
-                menu(opcio, opMenu);
-                switch (opcio) {
-                    case 1:
-                        afegirClient(clinica);
-                        break;
-                    case 2:
-                        eliminarClient(clinica);
-                        break;
-                    case 3:
-                        afegirMascotaClient(clinica);
-                        break;
-                    case 4:
-                        eliminarMascota(clinica);
-                        break;
-                    case 5:
-                        clinica->mostraClients();
-                        break;
-                    case 6:
-                        imprimirMascotesClient(clinica);
-                        break;
-                    default:
-                        break;
+void MainExercici3::inici(){
+    int opcio;
+        try {
+            Clinica *clinica = new Clinica("Clínica Uno");
+            Llista<string> *opMenu = new Llista<string>(
+                    {"1. Afegir Client ", "2. Eliminar Client", "3. Afegir Mascota a un client",
+                    "4. Eliminar Mascota d'un client", "5. Imprimir clients clinica",
+                    "6. Imprimir les mascotes d'un client",
+                    "0. Sortir"});
+            clinica->afegirClientsArxiu("clients4Gats.txt");
+            clinica->imprimir();
+            do {  //Considero deixar el frond-end al Main i el back-end a les classes particulars.
+                try {
+                    menu(opcio, opMenu);
+                    switch (opcio) {
+                        case 1:
+                            afegirClient(clinica);
+                            break;
+                        case 2:
+                            eliminarClient(clinica);
+                            break;
+                        case 3:
+                            afegirMascotaClient(clinica);
+                            break;
+                        case 4:
+                            eliminarMascota(clinica);
+                            break;
+                        case 5:
+                            clinica->mostraClients();
+                            break;
+                        case 6:
+                            imprimirMascotesClient(clinica);
+                            break;
+                        default:
+                            break;
+                    }
+                }catch(const std::exception& e){
+                    cerr << e.what() << '\n';
+                    sleep(1);  // He posat sleep(), perquè sortia el següent missatge abans que el missatge d'error
                 }
-            }catch(const std::exception& e){
-                cerr << e.what() << '\n';
-                sleep(1);  // He posat sleep(), perquè sortia el següent missatge abans que el missatge d'error
-            }
-        } while (opcio != 0);
-    }catch(const std::exception& e){
-        cerr << e.what() << '\n';
-        sleep(1);  // He posat sleep(), perquè sortia el següent missatge abans que el missatge de error
-    }
-    cout << "\nBye bye" << endl;
-    return 0;
+            } while (opcio != 0);
+        }catch(const std::exception& e){
+            cerr << e.what() << '\n';
+            sleep(1);  // He posat sleep(), perquè sortia el següent missatge abans que el missatge de error
+        }
+        cout << "\nBye bye" << endl;
 }
