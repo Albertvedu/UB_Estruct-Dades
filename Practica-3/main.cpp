@@ -14,9 +14,9 @@ void inserirNodes(const int *testKeys, const int *testValuies, ArbreBinari<int, 
 }
 void imprimir(const ArbreBinari<int, int> *tree1) {
     cout << endl;
-    tree1->imprimirPreordre(tree1->root);
-    tree1->imprimirInordre(tree1->root);
-    tree1->imprimirPostordre(tree1->root);
+    tree1->imprimirPreordre(tree1->getRoot());
+    tree1->imprimirInordre(tree1->getRoot());
+    tree1->imprimirPostordre(tree1->getRoot());
 }
 void obtenirRang(const vector<NodeBinari<int, int> *> &rang) {
     cout << "ObteValorsRang={ ";
@@ -26,6 +26,7 @@ void obtenirRang(const vector<NodeBinari<int, int> *> &rang) {
     cout << rang[rang.size()-1]->getKey() << " }" << endl;
 }
 void cami(const ArbreBinari<int, int> *tree1, int clau) {
+
     NodeBinari<int, int>* node = tree1->search(clau);
     vector<NodeBinari<int,int>*> cami;
     cami.push_back(node);
@@ -39,7 +40,7 @@ void cami(const ArbreBinari<int, int> *tree1, int clau) {
         cout << cami[i]->getKey()<< ", ";
     cout << cami[0]->getKey() << " }" << endl;
 }
-int main() {
+int main(){
     int testKeys [] = {2, 0, 8, 45, 76, 5, 3, 40 };
     int testValuies[]={5,5,1,88,99,12,9,11};
 
@@ -52,12 +53,13 @@ int main() {
         obtenirRang(rang);
 
         ArbreBinari<int, int>* tree2 = new ArbreBinari<int, int>(tree1);
-        tree2->imprimirPostordre(tree2->root);
+        tree2->imprimirPostordre(tree2->getRoot());
 
         cami(tree1, 40);
         cout << "\n\e[1mEliminar minim\e[0m" << endl;
         tree1->eliminaMinim();
-        tree1->imprimirInordre(tree1->root);
+        tree1->imprimirInordre(tree1->getRoot());
+
         delete tree1;
 
     }catch(const std::exception& e){

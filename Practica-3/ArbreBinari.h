@@ -14,24 +14,34 @@ using namespace std;
 template <class Clau, class Valor>
 class ArbreBinari {
 public:
+    //CONSTRUCTORS
     ArbreBinari();
     ArbreBinari(ArbreBinari<int, int> *orig);
+
+    //DESTRUCTOR
      virtual ~ArbreBinari();
 
+    //CONSULTORS
     bool isEmpty() const;
     int height() const;
-
-    NodeBinari<Clau,Valor>* insert(const Clau& clau, const Valor& value);
-//    const Valor& valueOf(const Clau& clau) const;
+    const Valor& valueOf(const Clau& clau) const;
     void imprimirPreordre(const NodeBinari<Clau,Valor>* n = nullptr) const;
     void imprimirInordre(const NodeBinari<Clau,Valor>* n = nullptr) const;
     void imprimirPostordre(const NodeBinari<Clau,Valor>* n = nullptr) const;
     vector<NodeBinari<Clau,Valor>*> obteValorsRang(int k1, int k2) const;
     void imprimirCami(Clau _key) const;
+    NodeBinari<Clau, Valor> *getRoot() const;
+    void setRoot(NodeBinari<Clau, Valor> *root);
+
+    //MODIFICADORS
+    NodeBinari<Clau,Valor>* insert(const Clau& clau, const Valor& value);
     void eliminaMinim();
-//protected:
+
+protected:
     NodeBinari<Clau,Valor>* root;
+public://todo aixo es protected
     NodeBinari<Clau,Valor>* search(const Clau& k) const;
+
 private:
     int _size;
     NodeBinari<Clau, Valor>* _node;
@@ -39,8 +49,10 @@ private:
     /* Mètodes auxiliars definiu aquí els que necessiteu */
     NodeBinari<Clau, Valor>* cercarPosicioInsercio(const Clau &clau, NodeBinari<Clau, Valor>* node) const;
     void imprimirOrdreRecurs(const NodeBinari<Clau,Valor>* n, string ordre ) const;
-    vector<NodeBinari<Clau,Valor>*> buscarRang(NodeBinari<Clau,Valor>* node, int k1, int k2, vector<NodeBinari<Clau,Valor>*> rang) const;
+    vector<NodeBinari<Clau,Valor>*> buscarRang(NodeBinari<Clau,Valor>* node, int k1, int k2, vector<NodeBinari<Clau,Valor>*> rangVector) const;
     void copyArbre(NodeBinari<Clau, Valor>* node);
+    void rutinaEsquerra(const NodeBinari<Clau,Valor>* n, string ordre ) const;
+    void rutinaDreta(const NodeBinari<Clau,Valor>* n, string ordre ) const;
 };
 
 /*########################################################
@@ -80,7 +92,7 @@ ArbreBinari<Clau, Valor>::~ArbreBinari(){
 
     NodeBinari<Clau, Valor>* node = this->root;
     NodeBinari<Clau, Valor>* nodeAux;
-    cout << "\n\e[1mDESTRUCTOR........................\e[0m " << endl;
+    cout << "DESTRUCTOR........................ " << endl;
     while( node != nullptr){
         while ( node->hasLeft() ){
             node = node->getLeft();
@@ -103,7 +115,7 @@ ArbreBinari<Clau, Valor>::~ArbreBinari(){
             node = nodeAux->getPare();
         }
     }
-    cout << "\n\e[1mArbre binari destruït\e[0m" << endl;
+    cout << "Arbre binari destruït" << endl;
 }
 
 template <class Clau, class Valor>
@@ -124,10 +136,19 @@ NodeBinari<Clau,Valor>* ArbreBinari<Clau, Valor>::insert(const Clau& clau, const
     if(isEmpty()) {
         this->root = nodeNou;
         this->_node = root;
+
     }
     else{
         this->_node = cercarPosicioInsercio(clau, root);          //Recorre arbre per trobar posició inserció.
         nodeNou->setPare(this->_node);
+
+//        while (nodeAux != nullptr){
+//            nodeAux->setHeightNode(nodeAux->getHeightNode() +1);
+//            nodeAux = nodeAux->getPare();
+//        }
+
+       // nodeNou->setHeightNode(1);
+
 
         if( clau < this->_node->getKey() ){
             this->_node->setLeft(nodeNou);
@@ -145,10 +166,11 @@ NodeBinari<Clau,Valor>* ArbreBinari<Clau, Valor>::insert(const Clau& clau, const
     return nodeNou;
 }
 
-//template <class Clau, class Valor>
-//const Valor& ArbreBinari<Clau, Valor>::valueOf(const Clau& clau) const{
-//    return 0;
-//}
+template <class Clau, class Valor>
+const Valor& ArbreBinari<Clau, Valor>::valueOf(const Clau& clau) const{
+    //Post: Retorna el valor del node del cual li donem la clau
+    return search(clau)->getValue();
+}
 
 template <class Clau, class Valor>
 void ArbreBinari<Clau, Valor>::imprimirPreordre(const NodeBinari<Clau,Valor>* n ) const{
@@ -183,67 +205,63 @@ void ArbreBinari<Clau, Valor>::imprimirPostordre(const NodeBinari<Clau,Valor>* n
     }
 }
 template <class Clau, class Valor>
+void ArbreBinari<Clau, Valor>::rutinaEsquerra(const NodeBinari<Clau,Valor>* n, string ordre ) const{
+    if (n->hasLeft()) {
+        if (ordre == "Pre") cout << ", " ;           // Control de la coma
+        imprimirOrdreRecurs(n->getLeft(), ordre);
+        if (ordre != "Pre" ) cout << ", " ;
+    }
+}
+template <class Clau, class Valor>
+void ArbreBinari<Clau, Valor>::rutinaDreta(const NodeBinari<Clau,Valor>* n, string ordre ) const{
+    if (n->hasRight()) {
+        if (ordre != "Post") cout << ", " ;                // Control de la coma
+        imprimirOrdreRecurs(n->getRight(), ordre);
+        if (ordre == "Post") cout << ", " ;
+    }
+}
+template <class Clau, class Valor>
 void ArbreBinari<Clau, Valor>::imprimirOrdreRecurs(const NodeBinari<Clau,Valor>* n, string ordre ) const{
     if ( isEmpty() )
         throw invalid_argument("\e[1mL'arbre està buit\e[0m");
     else{
         if (ordre == "Pre"){
             cout << n->getKey();
-
-            if (n->hasLeft()) {
-                cout << ", " ;
-                imprimirOrdreRecurs(n->getLeft(), ordre);
-            }
-            if (n->hasRight()) {
-                cout << ", " ;
-                imprimirOrdreRecurs(n->getRight(), ordre);
-            }
+            rutinaEsquerra(n, ordre);    // Verifica si hi ha node esquerra
+            rutinaDreta(n, ordre);       // Verifica si hi ha node dreta
         }
         if (ordre == "In"){
-            if (n->hasLeft()) {
-
-                imprimirOrdreRecurs(n->getLeft(), ordre);
-                cout << ", " ;
-            }
+            rutinaEsquerra(n, ordre);   // Verifica si hi ha node esquerra
             cout << n->getKey();
-            if (n->hasRight()) {
-                cout << ", " ;
-                imprimirOrdreRecurs(n->getRight(), ordre);
-            }
+            rutinaDreta(n, ordre);       // Verifica si hi ha node dreta
         }
         if (ordre == "Post"){
-            if (n->hasLeft()) {
-                imprimirOrdreRecurs(n->getLeft(), ordre);
-                cout << ", " ;
-            }
-            if (n->hasRight()) {
-                imprimirOrdreRecurs(n->getRight(), ordre);
-                cout << ", " ;
-            }
+            rutinaEsquerra(n, ordre);   // Verifica si hi ha node esquerra
+            rutinaDreta(n, ordre);       // Verifica si hi ha node dreta
             cout << n->getKey();
         }
     }
 }
 
 template <class Clau, class Valor>
-vector<NodeBinari<Clau,Valor>*> ArbreBinari<Clau, Valor>::buscarRang(NodeBinari<Clau,Valor>* node, int k1, int k2, vector<NodeBinari<Clau,Valor>*> rang) const{
-
+vector<NodeBinari<Clau,Valor>*> ArbreBinari<Clau, Valor>::buscarRang(NodeBinari<Clau,Valor>* node, int k1, int k2, vector<NodeBinari<Clau,Valor>*> rangVector) const{
+    //Post: Retorna un vector amb el nodes que hi ha entre el rangVector donat
     if (node->hasLeft())
-        rang = buscarRang(node->getLeft(), k1, k2, rang);
+        rangVector = buscarRang(node->getLeft(), k1, k2, rangVector);
 
     if( (node->getKey() >= k1) && (node->getKey() <= k2) )
-        rang.push_back(node);
+        rangVector.push_back(node);
 
     if (node->hasRight())
-        rang = buscarRang(node->getRight(), k1, k2, rang);
+        rangVector = buscarRang(node->getRight(), k1, k2, rangVector);
 
-    return rang;
+    return rangVector;
 
 }
 template <class Clau, class Valor>
 vector<NodeBinari<Clau,Valor>*> ArbreBinari<Clau, Valor>::obteValorsRang(int k1, int k2) const{
-    vector<NodeBinari<Clau,Valor>*> rang;
-    return buscarRang(this->root, k1, k2, rang);
+    vector<NodeBinari<Clau,Valor>*> rangVector;
+    return buscarRang(this->root, k1, k2, rangVector);
 }
 
 template <class Clau, class Valor>
@@ -309,4 +327,24 @@ NodeBinari<Clau, Valor>* ArbreBinari<Clau, Valor>::cercarPosicioInsercio(const C
             return node;
 }
 
+template<class Clau, class Valor>
+NodeBinari<Clau, Valor> *ArbreBinari<Clau, Valor>::getRoot() const {
+    return root;
+}
+
+template<class Clau, class Valor>
+void ArbreBinari<Clau, Valor>::setRoot(NodeBinari<Clau, Valor> *root) {
+    ArbreBinari::root = root;
+}
+
+template <class Clau, class Valor>
+class Prova : ArbreBinari<Clau, Valor>{
+public:
+    void useSearch(){
+      //  search();
+    }
+};
 #endif //PRACTICA_4_ARBREBINARI_H
+
+
+

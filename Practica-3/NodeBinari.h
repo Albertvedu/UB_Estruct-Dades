@@ -10,18 +10,21 @@ using namespace std;
 template <class Clau, class Valor >
 class NodeBinari {
 public:
+    // CONSTRUCTORS
     NodeBinari(const Clau& key);
     NodeBinari(const Clau& clau, const Valor& valor);
     NodeBinari(const NodeBinari<Clau,Valor >& orig);
+
+    //DESTRUCTORS
     virtual ~NodeBinari();
 
     /* Modificadors */
-    // declareu aquí els modificadors (setters) dels atributs que necessiteu
     void insertValue(const Valor & v);
     void insertKey(const Clau &k);
     void setPare( NodeBinari<Clau, Valor>* node);
     void setLeft( NodeBinari<Clau, Valor>* node) ;
     void setRight( NodeBinari<Clau, Valor>* node) ;
+
 
     /* Consultors */
     const Clau& getKey() const;
@@ -29,13 +32,13 @@ public:
     NodeBinari<Clau, Valor>* getPare() const;
     NodeBinari<Clau, Valor>* getLeft() const;
     NodeBinari<Clau, Valor>* getRight() const;
-    // declareu aquí els consultors (getters) dels atributs que necessiteu
+
+
     /* Operacions */
     bool isRoot() const;
     bool hasLeft() const;
     bool hasRight() const;
     bool isExternal() const;
-
     int height() const;
     bool operator==(const NodeBinari<Clau,Valor >& node) const;
 
@@ -47,6 +50,7 @@ private:
     Clau _key;
     Valor _value;
     bool _isRight;        // Necessari per a l'hora d'esborrar, saber quin node es
+    int _heightNode;
     NodeBinari<Clau, Valor>* _pare;
     NodeBinari<Clau, Valor>* _left;
     NodeBinari<Clau, Valor>* _right;
@@ -162,7 +166,7 @@ int NodeBinari<Clau, Valor>::height() const{
 }
 template <class Clau, class Valor >
 bool NodeBinari<Clau, Valor>::operator==(const NodeBinari<Clau,Valor >& node) const{
-    return false;
+    return this->_key == node._key && this->_key == node._key;
 }
 
 #endif //PRACTICA_4_NODEBINARI_H
