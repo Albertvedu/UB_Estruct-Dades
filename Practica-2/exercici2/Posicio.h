@@ -35,6 +35,9 @@ public:
     const Element &operator*() const;            // sobrecarrega operador contingut
     // ostream& operator<<(ostream& os, const Posicio<Element>& posicio);
 
+    // meu
+    NodeLlista<Element> getNode();
+
 private:
     NodeLlista<Element> *_node;
 };
@@ -44,7 +47,10 @@ private:
 /*########################################################
 #####           .CPP                                 ###
 ########################################################*/
-
+template<class Element>
+NodeLlista<Element> Posicio<Element>::getNode(){
+    return this->_node;
+}
 template<class Element>
 Posicio<Element>::Posicio(NodeLlista<Element> *node) {
     this->_node = node;

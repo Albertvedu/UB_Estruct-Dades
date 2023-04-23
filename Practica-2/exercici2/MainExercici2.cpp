@@ -215,6 +215,10 @@ int main(){
                 sleep(1);
             }
         }
+        cout << "kllkllk" << endl;
+         Llista<string>* l2 = new Llista<string>(*l1);
+         //l2 = l1;
+          cout << "kllkllk" << endl;
     }catch(const std::exception& e){
         cerr << e.what() << '\n';
         sleep(1);

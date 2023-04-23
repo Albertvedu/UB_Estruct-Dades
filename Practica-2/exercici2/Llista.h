@@ -16,7 +16,7 @@ public:
     //CONSTRUCTOR
     Llista();
     Llista(initializer_list<Element> elements);
-    Llista(const Llista<Element> &origen);
+    Llista(const Llista<Element> *origen);
 
     //DESTRUCTOR
     virtual ~Llista();
@@ -68,15 +68,15 @@ Llista<Element>::Llista(initializer_list<Element> elements){
         throw invalid_argument ("\nInitializer_list és una llista buida");
 }
 template <class Element>
-Llista<Element>::Llista(const Llista<Element> &origen){
+Llista<Element>::Llista(const Llista<Element> *origen){
 
-    if (!origen.esBuida()){ // Si Llista origen no està buïda
+    if (!origen->esBuida()){ // Si Llista origen no està buïda
 
         NodeLlista<Element> *nodeNou, *ant, *aux;
         crearCentinelles();
 
         // AUX = primer element de la llista a copiar
-        aux = origen.principi().getNode(); // TODO Trobat error... getNode() NO EXISTEIX
+        aux = origen->principi().getNode(); // TODO Trobat error... getNode() NO EXISTEIX
         ant = this->_cap;
 
         // Bucle fins trobar final llista.
