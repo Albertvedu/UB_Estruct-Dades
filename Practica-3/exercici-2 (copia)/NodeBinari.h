@@ -2,8 +2,8 @@
 // Created by albert on 20/04/23.
 //
 
-#ifndef PRACTICA_4_NODEBINARI_H
-#define PRACTICA_4_NODEBINARI_H
+#ifndef PRACTICA_3_NODEBINARI_H
+#define PRACTICA_3_NODEBINARI_H
 #include <iostream>
 using namespace std;
 
