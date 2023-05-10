@@ -154,7 +154,7 @@ int main(){
                  "4. Eliminar Mascota d'un client", "5. Imprimir clients clinica",
                  "6. Imprimir les mascotes d'un client",
                  "0. Sortir"});
-        clinica->afegirClientsArxiu("/home/albert/Projects_VS/UB_Estruct-Dades/Practica_2/exercici3/clients4Gats.txt");
+        clinica->afegirClientsArxiu("clients4Gats.txt");
         clinica->imprimir();
         do {  //Considero deixar el frond-end al Main i el back-end a les classes particulars.
             try {

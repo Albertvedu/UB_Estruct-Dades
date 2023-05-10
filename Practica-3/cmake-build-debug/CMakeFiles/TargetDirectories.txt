@@ -1,0 +1,3 @@
+/home/albert/CLionProjects/Practica-3/cmake-build-debug/CMakeFiles/Practica_3.dir
+/home/albert/CLionProjects/Practica-3/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/albert/CLionProjects/Practica-3/cmake-build-debug/CMakeFiles/rebuild_cache.dir
