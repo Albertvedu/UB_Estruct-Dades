@@ -26,27 +26,18 @@ public:
 //    void setPare( NodeHeap<Clau, Valor>* node);
 //    void setLeft( NodeHeap<Clau, Valor>* node) ;
 //    void setRight( NodeHeap<Clau, Valor>* node) ;
-    void setKey(Clau key);
-    void setValue(Valor valor);
+//    void setKey(Clau key);
+//    void setValue(Valor valor);
 
     /* CONSULTORS */
     /* Consultors */
     const Clau& getKey() const;
     const Valor& getValue() const;
-    int getPare(int i) const;
-    int getLeft(int i) const;
-    int getRight(int i) const;
+//    int getPare(int i) const;
+//    int getLeft(int i) const;
+//    int getRight(int i) const;
     int getNivell() const;
     void setNivell(int i);
-    void setPare(int i);
-    bool isRoot() const;
-    bool hasRight(int i, int tamany) const;
-    bool hasLeft(int i, int tamany) const;
-
-    bool isExternal(int i, int tamany) const;
-//    int height() const;
-//    bool isIsRight() const;
-//    void setIsRight(bool isRight);
 
     //OPERADORS LOGISCS
     bool operator==(const NodeHeap<Clau,Valor >& node) const;
@@ -121,55 +112,56 @@ template <class Clau, class Valor >
 const Valor& NodeHeap<Clau, Valor>::getValue() const{
     return this->_value;
 }
-template <class Clau, class Valor >
-int NodeHeap<Clau, Valor>::getPare(int i) const{
-    return (i-1) /2;
-}
-template <class Clau, class Valor >
-int NodeHeap<Clau, Valor>::getLeft(int i) const {
-    return ( 2 * i) + 1;
-}
-template <class Clau, class Valor >
-int NodeHeap<Clau, Valor>::getRight(int i) const {
-    return ( 2 * i) + 2;
-}
+//template <class Clau, class Valor >
+//int NodeHeap<Clau, Valor>::getPare(int i) const{
+//    return (i-1) /2;
+//}
+//template <class Clau, class Valor >
+//int NodeHeap<Clau, Valor>::getLeft(int i) const {
+//
+//    return ( 2 * i) + 1;
+//}
+//template <class Clau, class Valor >
+//int NodeHeap<Clau, Valor>::getRight(int i) const {
+//    return ( 2 * i) + 2;
+//}
 template <class Clau, class Valor >
 int NodeHeap<Clau, Valor>::getNivell() const {
     return this->_nivell;
 }
-template <class Clau, class Valor >
-bool NodeHeap<Clau, Valor>::isRoot() const{
-    return false; // todo areglar aixo ..................this->_pare == nullptr;
-}
-template<class Clau, class Valor>
-bool NodeHeap<Clau, Valor>::hasLeft(int i, int tamany) const{
-    return (this->getLeft(i) <= tamany -1) && (this->getLeft(i) >= 0);
-}
-template<class Clau, class Valor>
-bool NodeHeap<Clau, Valor>::hasRight(int i, int tamany) const{
-    return this->getRight(i) <= tamany-1;
-}
-template<class Clau, class Valor>
-bool NodeHeap<Clau, Valor>::isExternal(int i, int tamany) const{
-    return (this->getRight(i) > tamany -1) && (this->getLeft(i) > tamany -1);
-}
+//template <class Clau, class Valor >
+//bool NodeHeap<Clau, Valor>::isRoot() const{
+//    return false; // todo areglar aixo ..................this->_pare == nullptr;
+//}
+//template<class Clau, class Valor>
+//bool NodeHeap<Clau, Valor>::hasLeft(int i, int tamany) const{
+//    return (this->getLeft(i) <= tamany -1) && (this->getLeft(i) >= 0);
+//}
+//template<class Clau, class Valor>
+//bool NodeHeap<Clau, Valor>::hasRight(int i, int tamany) const{
+//    return this->getRight(i) <= tamany-1;
+//}
+//template<class Clau, class Valor>
+//bool NodeHeap<Clau, Valor>::isExternal(int i, int tamany) const{
+//    return (this->getRight(i) > tamany -1) && (this->getLeft(i) > tamany -1);
+//}
 //SETTERS
-template <class Clau, class Valor >
-void NodeHeap<Clau, Valor>::setKey(Clau key) {
-    this->_key = key;
-}
-template <class Clau, class Valor >
-void NodeHeap<Clau, Valor>::setValue(Valor valor) {
-    this->_value = valor;
-}
+//template <class Clau, class Valor >
+//void NodeHeap<Clau, Valor>::setKey(Clau key) {
+//    this->_key = key;
+//}
+//template <class Clau, class Valor >
+//void NodeHeap<Clau, Valor>::setValue(Valor valor) {
+//    this->_value = valor;
+//}
 template <class Clau, class Valor >
 void NodeHeap<Clau, Valor>::setNivell(int i){
     this->_nivell = i;
 }
-template <class Clau, class Valor >
-void NodeHeap<Clau, Valor>::setPare(int i){
-    this->_pare = i;
-}
+//template <class Clau, class Valor >
+//void NodeHeap<Clau, Valor>::setPare(int i){
+//    this->_pare = i;
+//}
 template <class Clau, class Valor >
 bool NodeHeap<Clau, Valor>::operator==(const NodeHeap<Clau,Valor >& node) const{
     return this == node;

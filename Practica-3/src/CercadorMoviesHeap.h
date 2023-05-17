@@ -40,8 +40,8 @@ private:
 
 template <class Clau, class Valor>
 CercadorMoviesHeap<Clau, Valor>::CercadorMoviesHeap(){
-//    this->_tree = new ArbreBinari<int, Movie>();
-    this->_root = this->getRoot();
+    ::MinHeap<Clau, Valor>();
+
 
 }
 
@@ -53,11 +53,14 @@ CercadorMoviesHeap<Clau, Valor>::~CercadorMoviesHeap(){}
 
 template <class Clau, class Valor>
 void CercadorMoviesHeap<Clau, Valor>::appendMovies(string filename){
-    int id, pos1, pos2;
+    int id, pos1, pos2, repetits = 0;
     string nom;
     float rating;
     string delimitador = ":";
     string linea;
+    if ( !this->esBuit())
+        //eliminarMinimaMovie(this->tamany());
+        throw invalid_argument("Ja tens un arbre creat amb les dades del fitxer.\n Si vols un altre arbre has de sortir, per crear-ne un de nou");
 
     if ( ifstream arxiu{ filename}) {
 
@@ -69,12 +72,18 @@ void CercadorMoviesHeap<Clau, Valor>::appendMovies(string filename){
             nom = linea.substr(pos1+1, pos2-pos1-1);   // Asigna a NOM els caràcters entre pos pos1 i Pos2
             rating = stof(linea.substr(pos2+1));      // Asingna a RATING la resta caràcters de la linea
 
-            insertarMovie(id, nom, rating);        // Pasa dades a mètode insertarMovie()
-
+            try {
+                insertarMovie(id, nom, rating);        // Pasa dades a mètode insertarMovie()
+            }catch(const invalid_argument &e){
+                cerr << e.what() << '\n';
+                repetits ++;
+            }
         }
         arxiu.close();
         cout << endl;
-        cout << "Alçada........... " << height() << endl;
+        cout << "S'han insertat " << this->tamany() << " elements." << endl;
+        cout << "Elements repetits No insertats:  " << repetits << endl;
+        // cout << "Alçada........... " << height() << endl;
     } else {
         throw invalid_argument ("\nNO S'HA POGUT OBRIR EL FITXER");
     }
@@ -87,19 +96,17 @@ void CercadorMoviesHeap<Clau, Valor>::insertarMovie(int movieID, string title, f
 }
 template <class Clau, class Valor>
 string CercadorMoviesHeap<Clau, Valor>::mostrarMovie(int movieID){
-    NodeHeap<int, Movie>* movieNode = this->search(movieID);
-    return movieNode->getValue().print();
+    return  toString(this->cerca(movieID));   //.print();
 }
 
 template <class Clau, class Valor>
 Movie CercadorMoviesHeap<Clau, Valor>::buscarMovie(int movieID){
-    return this->search(movieID)->getValue();
+    return this->cerca(movieID);
 }
 
 template <class Clau, class Valor>
 float CercadorMoviesHeap<Clau, Valor>::buscarRatingMovie(int movieID){
-    Movie a =  this->search(movieID)->getValue();  // No sé perquè no deixa encadenar el getRating() aqui.
-    return a.getRating();
+    return this->cerca(movieID).getRating();
 }
 
 template <class Clau, class Valor>
@@ -110,16 +117,16 @@ void CercadorMoviesHeap<Clau, Valor>::eliminarMinimaMovie(int n){
 
 template <class Clau, class Valor>
 int CercadorMoviesHeap<Clau, Valor>::height() {
-    this->altura();
-    return this->getHeight();
+
+    return this->altura();
 }
 template <class Clau, class Valor>
 int CercadorMoviesHeap<Clau, Valor>::profunditat() {
-    return this->height(this->root) -1;
+    return this->height() -1;
 }
 template <class Clau, class Valor>
 bool CercadorMoviesHeap<Clau, Valor>::isNull() const {
-    return this->isEmpty();
+    return this->esBuit();
 }
 template <class Clau, class Valor>
 void CercadorMoviesHeap<Clau, Valor>::mostrarArbre() {

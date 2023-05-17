@@ -26,10 +26,8 @@ public:
     int profunditat();
     bool isNull() const;
     void mostrarArbre() ;
-    void setRootDerivada();
-private:
-    ArbreBinari<int, Movie>* _tree;
-    NodeBinari<Clau, Valor>* _root;
+
+
 };
 
 /*########################################################
@@ -38,24 +36,30 @@ private:
 
 template <class Clau, class Valor>
 CercadorMoviesAB<Clau, Valor>::CercadorMoviesAB(){
-//    this->_tree = new ArbreBinari<int, Movie>();
-    this->_root = this->getRoot();
+    //  ::ArbreBinari<Clau, Valor>();
 
 }
 
 template <class Clau, class Valor>
-CercadorMoviesAB<Clau, Valor>::CercadorMoviesAB(const CercadorMoviesAB & orig){}
+CercadorMoviesAB<Clau, Valor>::CercadorMoviesAB(const CercadorMoviesAB & orig){
+
+}
 
 template <class Clau, class Valor>
-CercadorMoviesAB<Clau, Valor>::~CercadorMoviesAB(){}
+CercadorMoviesAB<Clau, Valor>::~CercadorMoviesAB(){
+}
 
 template <class Clau, class Valor>
 void CercadorMoviesAB<Clau, Valor>::appendMovies(string filename){
-    int id, pos1, pos2;
+    int id, pos1, pos2, repetits = 0;
     string nom;
     float rating;
     string delimitador = ":";
     string linea;
+    if ( !this->isEmpty())
+        delete this;
+       // eliminarMinimaMovie(this->getSize());
+      //  throw invalid_argument("Ja tens un arbre creat amb les dades del fitxer.\n Si vols un altre arbre has de sortir, per crear-ne un de nou");
 
     if ( ifstream arxiu{ filename}) {
 
@@ -66,13 +70,19 @@ void CercadorMoviesAB<Clau, Valor>::appendMovies(string filename){
             pos2 = linea.find_first_of(delimitador, pos1+1);  // Trobar posicio segon limitador ":"
             nom = linea.substr(pos1+1, pos2-pos1-1);   // Asigna a NOM els caràcters entre pos pos1 i Pos2
             rating = stof(linea.substr(pos2+1));      // Asingna a RATING la resta caràcters de la linea
-
-            insertarMovie(id, nom, rating);        // Pasa dades a mètode insertarMovie()
+            try {
+                insertarMovie(id, nom, rating);        // Pasa dades a mètode insertarMovie()
+            }catch(const invalid_argument &e){
+                cerr << e.what() << '\n';
+                repetits ++;
+            }
 
         }
         arxiu.close();
         cout << endl;
-        cout << "Alçada........... " << height() << endl;
+        cout << "S'han insertat " << this->getSize() << " elements." << endl;
+        cout << "Elements repetits No insertats:  " << repetits << endl;
+       // cout << "Alçada........... " << height() << endl;
     } else {
         throw invalid_argument ("\nNO S'HA POGUT OBRIR EL FITXER");
     }
@@ -86,8 +96,8 @@ void CercadorMoviesAB<Clau, Valor>::insertarMovie(int movieID, string title, flo
 
 template <class Clau, class Valor>
 string CercadorMoviesAB<Clau, Valor>::mostrarMovie(int movieID){
-    NodeBinari<int, Movie>* movieNode = this->search(movieID);
-    return movieNode->getValue().print();
+    //NodeBinari<int, Movie>* movieNode = this->cerca(movieID);
+    return toString(this->search(movieID));     //print();
 }
 
 template <class Clau, class Valor>
@@ -97,8 +107,8 @@ Movie CercadorMoviesAB<Clau, Valor>::buscarMovie(int movieID){
 
 template <class Clau, class Valor>
 float CercadorMoviesAB<Clau, Valor>::buscarRatingMovie(int movieID){
-    Movie a =  this->search(movieID)->getValue();  // No sé perquè no deixa encadenar el getRating() aqui.
-    return a.getRating();
+   // Movie a =  this->cerca(movieID)->getValue();  // No sé perquè no deixa encadenar el getRating() aqui.
+    return this->search(movieID)->getValue().getRating();
 }
 
 template <class Clau, class Valor>
@@ -109,12 +119,13 @@ void CercadorMoviesAB<Clau, Valor>::eliminarMinimaMovie(int n){
 
 template <class Clau, class Valor>
 int CercadorMoviesAB<Clau, Valor>::height() {
+    this->setHeight(0);
     this->calcularHeightArbre(this->root);
     return this->getHeight();
 }
 template <class Clau, class Valor>
 int CercadorMoviesAB<Clau, Valor>::profunditat() {
-    return this->height(this->root) -1;
+    return this->height() -1;
 }
 template <class Clau, class Valor>
 bool CercadorMoviesAB<Clau, Valor>::isNull() const {
@@ -123,9 +134,5 @@ bool CercadorMoviesAB<Clau, Valor>::isNull() const {
 template <class Clau, class Valor>
 void CercadorMoviesAB<Clau, Valor>::mostrarArbre() {
     this->mostrarArbreOrdenat();
-}
-template <class Clau, class Valor>
-void CercadorMoviesAB<Clau, Valor>::setRootDerivada() {
-    this->_root = this->getRoot();
 }
 #endif //PRACTICA_3_CERCADORMOVIESAB_H

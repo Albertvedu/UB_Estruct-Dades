@@ -3,7 +3,6 @@
 //
 
 #include "Movie.h"
-#include <cmath>
 
 //CONSTRUCTORS
 Movie::Movie() {
@@ -35,22 +34,14 @@ const string &Movie::getNom() const {
     return _nom;
 }
 
-//SETTERS
-void Movie::setId(int id) {
-    _id = id;
-}
-void Movie::setNom(const string &nom) {
-    _nom = nom;
-}
-void Movie::setRating(float rating) {
-    _rating = rating;
-}
-
 //CONSULTORS
-void Movie::toString(const Movie *movie) const{
-    cout << "(" << movie->_id << "::"
-         << movie->_nom << "::"
-         << movie->_rating << ")" << endl;
+void Movie::toString(const Movie &movie) const{
+
+    cout << print();
+
+//    cout << "(" << movie->_id << "::"
+//         << movie->_nom << "::"
+//         << movie->_rating << ")" << endl;
 }
 string Movie::print() const {
     return "(" + to_string(this->_id) + "::"

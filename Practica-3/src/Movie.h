@@ -23,13 +23,8 @@ public:
     const string &getNom() const;
     float getRating() const;
 
-    //SETTERS
-    void setId(int id);
-    void setNom(const string &nom);
-    void setRating(float rating);
-
     //CONSULTORS
-    void toString(const Movie* movie) const;
+    void toString(const Movie &movie) const;
     string print() const;
     //MODIFICADORS
 private:
