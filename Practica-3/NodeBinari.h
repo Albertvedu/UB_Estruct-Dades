@@ -13,51 +13,48 @@ public:
     // CONSTRUCTORS
     NodeBinari(const Clau& key);
     NodeBinari(const Clau& clau, const Valor& valor);
-    NodeBinari(const NodeBinari<Clau,Valor >& orig);
+    NodeBinari(const NodeBinari<Clau,Valor >& orig);                            // Cost O (1)
 
     //DESTRUCTORS
-    virtual ~NodeBinari();
+    virtual ~NodeBinari();                                                      // Cost O (1)
 
     /* Modificadors */
-    void insertValue(const Valor & v);
-    void insertKey(const Clau &k);
-    void setPare( NodeBinari<Clau, Valor>* node);
-    void setLeft( NodeBinari<Clau, Valor>* node) ;
-    void setRight( NodeBinari<Clau, Valor>* node) ;
-    void setKey(Clau key);
-    void setValue(Valor valor);
+    void insertValue(const Valor & v);                                          // Cost O (1)
+    void insertKey(const Clau &k);                                              // Cost O (1)
+    void setPare( NodeBinari<Clau, Valor>* node);                               // Cost O (1)
+    void setLeft( NodeBinari<Clau, Valor>* node) ;                              // Cost O (1)
+    void setRight( NodeBinari<Clau, Valor>* node) ;                             // Cost O (1)
+    void setKey(Clau key);                                                      // Cost O (1)
+    void setValue(Valor valor);                                                 // Cost O (1)
 
     /* Consultors */
-    const Clau& getKey() const;
-    const Valor& getValue() const;
-    NodeBinari<Clau, Valor>* getPare() const;
-    NodeBinari<Clau, Valor>* getLeft() const;
-    NodeBinari<Clau, Valor>* getRight() const;
+    const Clau& getKey() const;                                                 // Cost O (1)
+    const Valor& getValue() const;                                              // Cost O (1)
+    NodeBinari<Clau, Valor>* getPare() const;                                   // Cost O (1)
+    NodeBinari<Clau, Valor>* getLeft() const;                                   // Cost O (1)
+    NodeBinari<Clau, Valor>* getRight() const;                                  // Cost O (1)
 
 
     /* CONSULTORS */
-    bool isRoot() const;
-    bool hasLeft() const;
-    bool hasRight() const;
-    bool isExternal() const;
-    int height() const;
-    bool isIsRight() const;
-    void setIsRight(bool isRight);
-    int getHeightNode() ;
-    void setHeightNode(int h);
+    bool isRoot() const;                                                        // Cost O (1)
+    bool hasLeft() const;                                                       // Cost O (1)
+    bool hasRight() const;                                                      // Cost O (1)
+    bool isExternal() const;                                                    // Cost O (1)
+    int height() const;                                                         // Cost O (1)
+    bool isIsRight() const;                                                     // Cost O (1)
+    void setIsRight(bool isRight);                                              // Cost O (1)
 
     //OPERADORS LOGISCS
-    bool operator==(const NodeBinari<Clau,Valor >& node) const;
+    bool operator==(const NodeBinari<Clau,Valor >& node) const;                 // Cost O (1)
 
 private:
     Clau _key;
     Valor _value;
     bool _isRight;        // Necessari per a l'hora d'esborrar, saber quin node es
-    int _heightNode;
+    int _heightNode;      // Cada node, té un atribut amb l'alçada que està el node
     NodeBinari<Clau, Valor>* _pare;
     NodeBinari<Clau, Valor>* _left;
     NodeBinari<Clau, Valor>* _right;
-    //int heightArbre;
 };
 
 /*########################################################
@@ -70,7 +67,6 @@ NodeBinari<Clau, Valor>::NodeBinari(const Clau& key){
     this->_pare = nullptr;
     this->_left = nullptr;
     this->_right = nullptr;
-   // this->heightArbre = 1; //todo .. revisar
 }
 
 template <class Clau, class Valor >
@@ -96,7 +92,17 @@ NodeBinari<Clau, Valor>::NodeBinari(const NodeBinari<Clau,Valor >& orig){
         throw invalid_argument("Node que vols copiar és NULL");
 }
 template <class Clau, class Valor >
-NodeBinari<Clau, Valor>::~NodeBinari(){
+NodeBinari<Clau, Valor>::~NodeBinari() {
+    //Post: si té node esquerre o node dret, destrueix
+
+    if (hasLeft()) {
+        delete _left;
+        _left = nullptr;
+    }
+    if (hasRight()) {
+        delete _right;
+        _right = nullptr;
+    }
 
 }
 
@@ -188,12 +194,5 @@ template <class Clau, class Valor >
 bool NodeBinari<Clau, Valor>::operator==(const NodeBinari<Clau,Valor >& node) const{
     return this->_key == node._key && this->_key == node._key;
 }
-template <class Clau, class Valor >
-int NodeBinari<Clau, Valor>::getHeightNode() {
-    return this->_heightNode;
-}
-template <class Clau, class Valor >
-void NodeBinari<Clau, Valor>::setHeightNode(int h) {
-    this->_heightNode = h;
-}
+
 #endif //PRACTICA_4_NODEBINARI_H

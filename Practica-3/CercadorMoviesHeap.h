@@ -12,21 +12,27 @@
 template < class Clau, class Valor>
 class CercadorMoviesHeap: protected MinHeap<Clau, Valor> {
 public:
+    // CONSTRUCTORS
     CercadorMoviesHeap();
     CercadorMoviesHeap(const CercadorMoviesHeap &orig);
+
+    // DESTRUCTOR
     virtual ~CercadorMoviesHeap();
-    void appendMovies(string filename);
-    void insertarMovie(int movieID, string title, float rating);
-    string mostrarMovie(int movieID);
 
-
+    // CONSULTORS
     Movie buscarMovie(int movieID);
     float buscarRatingMovie(int movieID);
-    void eliminarMinimaMovie(int n);
     int height() ;
     int profunditat();
     bool isNull() const;
     void mostrarArbre() ;
+    string mostrarMovie(int movieID);
+
+    // MODIFICADORS
+    void appendMovies(string filename);
+    void insertarMovie(int movieID, string title, float rating);
+    void eliminarMinimaMovie(int n);
+
 private:
 
 };
@@ -40,16 +46,21 @@ private:
 
 template <class Clau, class Valor>
 CercadorMoviesHeap<Clau, Valor>::CercadorMoviesHeap(){
-    ::MinHeap<Clau, Valor>();
+    //De fet fa dues cridas, una al hereda de MinHead() i l'altre aqui, quan jo crido al constructor Pare
 
+    ::MinHeap<Clau, Valor>(); // És inncessari, al heredà de MinHead(), ja fa una crida automàtica al constructor MinHead()
+}
+
+template <class Clau, class Valor>
+CercadorMoviesHeap<Clau, Valor>::CercadorMoviesHeap(const CercadorMoviesHeap & orig){
 
 }
 
 template <class Clau, class Valor>
-CercadorMoviesHeap<Clau, Valor>::CercadorMoviesHeap(const CercadorMoviesHeap & orig){}
-
-template <class Clau, class Valor>
-CercadorMoviesHeap<Clau, Valor>::~CercadorMoviesHeap(){}
+CercadorMoviesHeap<Clau, Valor>::~CercadorMoviesHeap(){
+    // Destructor innecessari. No hi ha memòria dinàmica utilitzada.
+    cout << "Espai de memòria reinicialitzat automàticament" << endl;
+}
 
 template <class Clau, class Valor>
 void CercadorMoviesHeap<Clau, Valor>::appendMovies(string filename){
@@ -59,7 +70,6 @@ void CercadorMoviesHeap<Clau, Valor>::appendMovies(string filename){
     string delimitador = ":";
     string linea;
     if ( !this->esBuit())
-        //eliminarMinimaMovie(this->tamany());
         throw invalid_argument("Ja tens un arbre creat amb les dades del fitxer.\n Si vols un altre arbre has de sortir, per crear-ne un de nou");
 
     if ( ifstream arxiu{ filename}) {
@@ -96,7 +106,7 @@ void CercadorMoviesHeap<Clau, Valor>::insertarMovie(int movieID, string title, f
 }
 template <class Clau, class Valor>
 string CercadorMoviesHeap<Clau, Valor>::mostrarMovie(int movieID){
-    return  toString(this->cerca(movieID));   //.print();
+    return  this->cerca(movieID).toString();   // usar mètodo toString() no lo veo práctico.
 }
 
 template <class Clau, class Valor>
@@ -111,8 +121,16 @@ float CercadorMoviesHeap<Clau, Valor>::buscarRatingMovie(int movieID){
 
 template <class Clau, class Valor>
 void CercadorMoviesHeap<Clau, Valor>::eliminarMinimaMovie(int n){
-    for (int i = 0; i < n; ++i)
-        this->eliminaMinim();
+
+    if (n <= this->tamany()) {                      // Controla no eliminar més nodes dels que hi ha
+        for (int i = 0; i < n; ++i)
+            this->eliminaMinim();
+        cout << n << " Nodes eliminats" << endl;
+        if (this->tamany() == 0)                     // Si ja no queden nodes.. print missatge
+            cout << "\n\e[1mHas eliminat tots el nodes. Arbre buit\e[0m" << endl;
+    }
+    else
+        throw invalid_argument("Quantitat errónea, no hi ha aquest nombre de Pel·lícules en memòria.");
 }
 
 template <class Clau, class Valor>
@@ -122,6 +140,7 @@ int CercadorMoviesHeap<Clau, Valor>::height() {
 }
 template <class Clau, class Valor>
 int CercadorMoviesHeap<Clau, Valor>::profunditat() {
+    //Post: retorna alçada -1 és profunditat de l'arbre
     return this->height() -1;
 }
 template <class Clau, class Valor>

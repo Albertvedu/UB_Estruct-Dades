@@ -7,25 +7,34 @@
 
 #include "Movie.h"
 #include "ArbreBinari.h"
+#include "LecturaDades.h"
 #include <fstream>
 
 
 template < class Clau, class Valor>
 class CercadorMoviesAB: protected ArbreBinari<Clau, Valor>{
 public:
+    //CONSTRUCTORS
     CercadorMoviesAB();
     CercadorMoviesAB(const CercadorMoviesAB & orig);
+
+    //DESTRUCTOR
     virtual ~CercadorMoviesAB();
-    void appendMovies(string filename);
-    void insertarMovie(int movieID, string title, float rating);
-    string mostrarMovie(int movieID);
-    Movie buscarMovie(int movieID);
-    float buscarRatingMovie(int movieID);
-    void eliminarMinimaMovie(int n);
-    int height() ;
-    int profunditat();
-    bool isNull() const;
-    void mostrarArbre() ;
+
+    // CONSULTORS
+    string mostrarMovie(int movieID);                           // Cost O( log n )
+    Movie buscarMovie(int movieID);                             // Cost O( log n )
+    float buscarRatingMovie(int movieID);                       // Cost O( log n )
+    int height() ;                                              // Cost O( n log n )
+    int profunditat();                                          // Cost O( n log n )
+    bool isNull() const;                                        // Cost O( 1 )
+    void mostrarArbre() ;                                       // Cost O( n )
+
+    // MODIFICADORS
+    void appendMovies(string filename);                                 // Cost O( n log n )
+    void insertarMovie(int movieID, string title, float rating);        // Cost O( log n )
+    void eliminarMinimaMovie(int n);                                    // Cost O( log n )
+
 
 
 };
@@ -36,8 +45,7 @@ public:
 
 template <class Clau, class Valor>
 CercadorMoviesAB<Clau, Valor>::CercadorMoviesAB(){
-    //  ::ArbreBinari<Clau, Valor>();
-
+    //  ::ArbreBinari<Clau, Valor>();  // Innecesario, al heredar ya hace una llamada al constructor de ArbreBinari().
 }
 
 template <class Clau, class Valor>
@@ -47,6 +55,7 @@ CercadorMoviesAB<Clau, Valor>::CercadorMoviesAB(const CercadorMoviesAB & orig){
 
 template <class Clau, class Valor>
 CercadorMoviesAB<Clau, Valor>::~CercadorMoviesAB(){
+
 }
 
 template <class Clau, class Valor>
@@ -57,9 +66,7 @@ void CercadorMoviesAB<Clau, Valor>::appendMovies(string filename){
     string delimitador = ":";
     string linea;
     if ( !this->isEmpty())
-        delete this;
-       // eliminarMinimaMovie(this->getSize());
-      //  throw invalid_argument("Ja tens un arbre creat amb les dades del fitxer.\n Si vols un altre arbre has de sortir, per crear-ne un de nou");
+         throw invalid_argument("Ja tens un arbre creat amb les dades del fitxer.\n Si vols un altre arbre has de sortir, per crear-ne un de nou");
 
     if ( ifstream arxiu{ filename}) {
 
@@ -96,8 +103,7 @@ void CercadorMoviesAB<Clau, Valor>::insertarMovie(int movieID, string title, flo
 
 template <class Clau, class Valor>
 string CercadorMoviesAB<Clau, Valor>::mostrarMovie(int movieID){
-    //NodeBinari<int, Movie>* movieNode = this->cerca(movieID);
-    return toString(this->search(movieID));     //print();
+    return this->search(movieID)->getValue().toString();   // usar mètodo toString() no lo veo práctico.
 }
 
 template <class Clau, class Valor>
@@ -107,14 +113,22 @@ Movie CercadorMoviesAB<Clau, Valor>::buscarMovie(int movieID){
 
 template <class Clau, class Valor>
 float CercadorMoviesAB<Clau, Valor>::buscarRatingMovie(int movieID){
-   // Movie a =  this->cerca(movieID)->getValue();  // No sé perquè no deixa encadenar el getRating() aqui.
     return this->search(movieID)->getValue().getRating();
 }
 
 template <class Clau, class Valor>
 void CercadorMoviesAB<Clau, Valor>::eliminarMinimaMovie(int n){
-    for (int i = 0; i < n; ++i)
-        this->eliminaMinim();
+   //Post: Executa 'n' vegades el mètode eliminarMinim()
+
+    if (n <= this->getSize()) {
+        for (int i = 0; i < n; ++i)
+            this->eliminaMinim();
+        cout << n << "  Nodes eliminats" << endl;
+        if ( this->getSize() == 0)
+            cout << "\n\e[1mHas eliminat tots el nodes. Arbre buit\e[0m" << endl;
+    }
+    else
+        throw invalid_argument("Quantitat errónea, no hi ha aquest nombre de Pel·lícules en memòria.");
 }
 
 template <class Clau, class Valor>

@@ -4,59 +4,85 @@
 #include <chrono>
 
 using namespace std;
+/*
+ *
+ *             ##################################################################################################
+ *             ####   OPERACIÓ               ###    ArbreBinari               ###        MinHeap              ###
+ *             ##################################################################################################
+ *             ####                          ###                              ###                             ###
+ *             #### Inserció arbre petit     ###                              ###                             ###
+ *             #### movie_rating_small.tx    ###   1,0 Mil·lèsimes de segon   ###   1,0 Mil·lèsimes de segon  ###
+ *             ##################################################################################################
+ *             ####                          ###                              ###                             ###
+ *             #### Inserció arbre gran      ###                              ###                             ###
+ *             #### movie_rating.txt         ###   593 Mil·lèsimes de segon   ###   815 Mil·lèsimes de segon  ###
+ *             ##################################################################################################
+ *             ####                          ###                              ###                             ###
+ *             ### Cerca arbre petit         ###                              ###                             ###
+ *             ### cercaPelicules.txt        ###   790 Mil·lèsimes de segon   ###   479 Mil·lèsimes de segon  ###
+ *             ##################################################################################################
+ *             ####                          ###                              ###                             ###
+ *             ### Cerca arbre gran          ###                              ###                             ###
+ *             ### cercaPelicules.txt        ###   1260 Mil·lèsimes de segon   ###   2453 Mil·lèsimes de segon ###
+ *             ##################################################################################################
+ *    
+ *      
+ *    Abans de res, he de dir que, que per fer aquesta pràctica he utilitzat l'IDE CLION, de JetBrains.
+ *    I a l'hora de fer les últimes proves amb el VScode i comprovar que els temps obtinguts amb el CLION,
+ *    son bastant inferiors al obtinguts amb VScode. Molt inferiors en algun cas. Quatre vegades més ràpid.
+ * 
+ *    Al final he dicidit possar aqui, les dades obtingudes amb VScode, però no son les més optimes.
+ * 
+ *    Pero, también veo que, con VScode cada vez obtengo resultados muy diferentes entre ellos mismos.
+ *    Conclusión, no me fio de VScode.
+ *    Entonces las conclusiones son difíciles de verlas claras. 
+ * 
+ *    Una cosa si que és clara en todos los casos.
+ *    La búsqueda con Heaps, és siempre más lenta. debido que Buscar con Heaps és un coste O(n).
+ * 
+ * 
+ *    # Aqui muestro conclusiones obtenidas con ClION: 
+ *   
+ *    Analitzant aquesta taula, podem veure que el temps empleat per minHeap(), és lleugerament inferior a fer-ho amb
+ *    Arbreinari(). De fet, la diferència, és quasi res.
+ *
+ *    Menys en el cas d'una cerca amb minHeap(), que necessita 5 vegades més temps, per fer la mateixa feina.
+ *
+ *    Això és degut a la cerca amb minHeap() té un cost O(n) i amb arbreBinari() té un cost de O(log n).
+ *    El motiu és que a arbreBinari(), per la manera que estan ordenats els nodes, només cal verificar una de les dues
+ *    branques. I aixi per cada fill.
+ *    En canvi, amb Heaps, es necessari verifica els dos fills de cada Pare.
+ *    Perquè en Heaps, no hi ha un ordre en fill esquerre i fill dret, només hi ha la condició que el pare sigui
+ *    inferior als fills.
+ *
+ *    Tot això comporta un cost de O(n) a la cerca, utilitzant Heaps.
+ *
+ *    Para la implementación de este main(), yo hubiera utilizado clases para el ejercicio 1,2,3 y 4. Y instanciarlos
+ *    desde este main.
+ *    Pero el enunciado especificaba de poner en este main, los cuatro ejercicios en forma de métodos.
+ *
+ *    De esta forma, queda una clase main, con una cohesión muy baja. Lo que va en contra de un óptimo patrón de diseño.
+ *
+ *
+ */
 
-template <class Classe>
-void opcionsMenu(int opcio, vector<int> &idCerca, Classe *cercador);
-
-
-using namespace std;
-void compare(int valor, int limitA, int limitB){
-    if (valor < limitA || valor > limitB)
-        throw invalid_argument( "Dades introduïdes incorrectes" );
-}
-bool esNumero(char *lectura) {
-    for( ; *lectura; ++lectura )
-        if( !isdigit(*lectura) )
-            return false;
-    return true;
-}
-
-int llegirStringTOint(string text, int limitA, int limitB) {
-    // Post: retorna lectura Integer o error si no és Integer
-
-    char lectura[100];
-
-    while(true){
-        try{
-            cout << text;
-            cin >> lectura;
-            if(!esNumero(lectura) )
-                throw invalid_argument( "Dades introduïdes incorrectes");
-            compare(atoi(lectura), limitA, limitB );
-            break;
-        }catch(const invalid_argument &e){
-            cerr << e.what() << '\n';
-        }
-    }
-    return atoi(lectura);
-}
-
-void menu(int &opcio, string tipusCerca) {
+void menu(int &opcio, string tipusCerca, LecturaDades lectura) {
+    //Post: print per pantalla opcions del menu
     vector<string> opMenu =
             {"1. Triar fitxer lectura ", "2. Mostrar arbre en ordre creixent", "3. Llegir fitxer \"cercaPelicules.txt\"",
              "4. Visualitzar profunditat de l'arbre", "5. Esborrar les n pelicules amb Id més petit",
              "6. Sortit"};
 
-    cout << "\nCERCADOR DE PELICULES AMB " << tipusCerca << " \n" << endl;
+    cout << "\nCERCADOR DE PELICULES AMB \e[1m" << tipusCerca << "\e[0m \n" << endl;
 
     for (int i = 0; i < 6; ++i) {
         cout << opMenu[i] << endl;
     }
-    opcio = llegirStringTOint("\nOpció: ", 1, 6);
+    opcio = lectura.llegirStringTOint("\nOpció: ", 1, 6);   // Va a llegir la opció seleccionada
 }
 template <class Classe>
 void triarFitxer(Classe* cercador) {
-//void triarFitxer(CercadorMoviesAB<int, Movie>* cercador){
+    //Post: pregunta quin fitxe vols seleccionar
     string opcio;
     cout << "\nQuin fitxer vols utilitzar ( P / G) (Petit o Gran): ";
     cin >> opcio;
@@ -66,18 +92,18 @@ void triarFitxer(Classe* cercador) {
         throw invalid_argument("\e[1mOpció no vàlida\e[0m");
     chrono::steady_clock::time_point begin = chrono::steady_clock::now();
 
-    if (opcio == "p")                       //   ressources/movie_rating_small.txt
-        cercador->appendMovies("/home/albert/CLionProjects/Practica-3/src/ressources/movie_rating_small.txt"); // todo ... cambiar ruta VS
+    if (opcio == "p")                       
+        cercador->appendMovies("ressources/movie_rating_small.txt"); 
     else
-        cercador->appendMovies("/home/albert/CLionProjects/Practica-3/src/ressources/movie_rating.txt"); //todo cambiar ruta
+        cercador->appendMovies("ressources/movie_rating.txt"); 
     chrono::steady_clock::time_point end = chrono::steady_clock::now();
     cout << "Temps transcorregut: " << chrono::duration_cast<chrono::milliseconds>(end -begin).count()
     << " Mil·lèsimes de segon." << endl;
 }
 void llegirFitxerCerques(vector<int> &idCerca){
     int n = 0;
-    if (idCerca.size() == 0){                   // Per no llegir dos cops el fitxer, en una segona crida
-        if (ifstream arxiu{ "/home/albert/CLionProjects/Practica-3/src/ressources/cercaPelicules.txt"}) {
+    if (idCerca.size() == 0){               // Per no llegir dos cops el fitxer, en una segona crida
+        if (ifstream arxiu{ "ressources/cercaPelicules.txt"}) {
             while ( !arxiu.eof() ){
                 arxiu >> n;
                 idCerca.push_back(n);
@@ -157,8 +183,10 @@ void mainExercici_1(){
         cout << "\n\e[1mEliminar minim\e[0m" << endl;
         _tree1->eliminaMinim();
         _tree1->imprimirInordre(_tree1->getRoot());
-
+        cout << "\nDestruint arbre _tree1" << endl;
         delete _tree1;
+        cout << "\nDestruint arbre _tree2" << endl;
+        delete _tree2;
         cout << endl;
 
     }catch(const std::exception& e){
@@ -188,7 +216,7 @@ void cercarTotsElement( Classe *cercador, vector<int> idCerca) {
     for (int i = 0; i < idCerca.size(); ++i) {
         try {
             movie = cercador->buscarMovie(idCerca[i]);
-            movie.toString(movie);  //movie.print() << endl;   // Que tonteria usar toString i print(). Necesito un objeto Movie, para llamar a toString()
+            movie.toString();  //movie.print() << endl;
             contador ++;
         }catch(const invalid_argument &e){
             cerr << idCerca[i] << "::  " << e.what() << '\n';
@@ -200,13 +228,28 @@ void cercarTotsElement( Classe *cercador, vector<int> idCerca) {
 }
 template <class Classe>
 void profundidad(Classe * cercador){
+    //Post: retorna valor del mètode profunditat()
     if (cercador->isNull())
         throw invalid_argument("\n\e[1mNo es possible executar aquesta acció. \nAbans has de llegir les dades del fitxer\n\e[0m");
     cout << "\nLa profunditat d'aquest arbre es: " << cercador->profunditat() << endl;
 
 }
 template <class Classe>
-void opcionsMenu(const int opcio, vector<int> &idCerca, Classe *cercador) {
+void eliminarNodes(Classe * cercador, LecturaDades lectura ){
+    //Post: Pregunta a usuari, quants nodes vol eliminar i va al mètode eliminarMinimaMovie()
+    int opcioEliminar;
+    cout << "\n\nQuants nodes vols eliminar?: " ;
+    opcioEliminar = lectura.llegirStringTOint("\nOpció: ", 1, INT32_MAX);
+    cercador->eliminarMinimaMovie(opcioEliminar);
+}
+template<typename Base, typename T>
+inline bool instanceof(const T *cercador) {
+    //Post: Mètode que detecta quina classe arriba per paràmetres.
+    return dynamic_cast<const Base*>(cercador) != nullptr;
+}
+
+template <class ClasseComodi>
+void opcionsMenu(const int opcio, vector<int> &idCerca, ClasseComodi *cercador, LecturaDades lectura ) {
     switch (opcio) {
         case 1:
             triarFitxer(cercador);
@@ -222,43 +265,38 @@ void opcionsMenu(const int opcio, vector<int> &idCerca, Classe *cercador) {
             profundidad(cercador);
             break;
         case 5:
-            cercador->eliminarMinimaMovie(5);
-            mostrarArbre(cercador);
+            eliminarNodes(cercador, lectura);
             break;
         case 6:
-            delete cercador;     // Sortir del menu i destruir punters d'Arbre Binari
+            if(instanceof<CercadorMoviesAB<int, Movie>>(cercador))   // Si és ArbreBinari, farà el delete
+                delete cercador;     // Sortir del menu i destruir punters d'Arbre Binari
             break;
         default:
             break;
     }
 }
-template<typename Base, typename T>
-inline bool instanceof(const T *cercador) {
-    return dynamic_cast<const Base*>(cercador) != nullptr;
-}
 
-template <class Classe>
-void main_Binari_Heap(Classe *cercador){
+template <class ClasseComodi>
+void main_Binari_Heap(ClasseComodi *cercador, LecturaDades lectura){
     int opcio;
     string fitxer, tipusCerca;
     vector<int> idCerca;
     Movie movie;
 
-    // Detecta quina classe arriba instanciada per paràmetres
+    //*** Detecta quina classe arriba instanciada per paràmetres
     if(instanceof<CercadorMoviesAB<int, Movie>>(cercador))
-        tipusCerca = "ARBRE BINARI";
+        tipusCerca = "( ARBRE BINARI )";                      // Text que es veura al menu
     else
-        tipusCerca = "HEAPS";
-
+        tipusCerca = "( HEAPS )";                            // Text que es veura al menu
     try {
-        do {  //Considero deixar el frond-end al Main i el back-end a les classes particulars.
+        do {
             try {
-                menu(opcio, tipusCerca);
-                opcionsMenu(opcio, idCerca, cercador);
+                menu(opcio, tipusCerca, lectura);                   // Mostra menu
+                opcionsMenu(opcio, idCerca, cercador, lectura);     // Llegeix opcions del menu
             }catch(const invalid_argument &e){
                 cerr << e.what() << '\n';
             }
-        } while (opcio != 6);
+        } while (opcio != 6);            // Sortida del menu
     }catch(const invalid_argument &e){
         cerr << e.what() << '\n';
     }
@@ -309,43 +347,49 @@ void menuMain() {
     cout << "\t\t\t\t***                                                 ###" << endl;
     cout << "\t\t\t\t#######################################################" << endl;
 }
+/*########################################################
+  #####           MAIN ARBRE BINARI                    ###
+  ########################################################*/
+
+void mainArbreBinari( LecturaDades lectura){    // Este método en vez de penalizar, debería doblar la nota
+    main_Binari_Heap(new CercadorMoviesAB<int, Movie>, lectura);
+}
+
+/*########################################################
+  #####           MAIN HEAP                            ###
+  ########################################################*/
+
+void mainHeap( LecturaDades lectura){           // Este método en vez de penalizar, debería doblar la nota
+    main_Binari_Heap(new CercadorMoviesHeap<int, Movie>, lectura);
+}
+
 int main(){
 
-    /*
-     * PREGUNTES:
-     *
-     * Después de leer fichero. Estando en el menu. Sé puede volver a leer para cambiar de fichero ????
-     *
-     * Linia 191 del main, que tonteria llamar a toString.
-     *
-     * mètodes AppendMovies... com activar destructor per esborrar dades anteriors... He fet eliminar(tot)
-     *
-     *
-     */
-    // TODO .......  MODIFICAR RUTA ACCESS A FITXERS... PER ENTREGAR
-    // TODO .......  MODIFICAR RUTA ACCESS A FITXERS... PER ENTREGAR
-    // TODO .......  MODIFICAR RUTA ACCESS A FITXERS... PER ENTREGAR
-    // TODO .......  MODIFICAR RUTA ACCESS A FITXERS... PER ENTREGAR
-    // TODO .......  MODIFICAR RUTA ACCESS A FITXERS... PER ENTREGAR
 
+    // TODO .......  MODIFICAR RUTA ACCESS A FITXERS... PER ENTREGAR
+    // TODO .......  MODIFICAR RUTA ACCESS A FITXERS... PER ENTREGAR
+    // TODO .......  MODIFICAR RUTA ACCESS A FITXERS... PER ENTREGAR
+    // TODO .......  MODIFICAR RUTA ACCESS A FITXERS... PER ENTREGAR
+    // TODO .......  MODIFICAR RUTA ACCESS A FITXERS... PER ENTREGAR
+    LecturaDades lectura;      // Classe per llegir opcions dels menus del projecte
 
     int opcioMain;
     do {
         try {
             menuMain();
-            opcioMain = llegirStringTOint("\nOpció: ", 1, 5);
+            opcioMain = lectura.llegirStringTOint("\nOpció: ", 1, 5);
             switch ( opcioMain) {
                 case 1:
                     mainExercici_1();
                     break;
                 case 2:
-                    main_Binari_Heap(new CercadorMoviesAB<int, Movie>);
+                    mainArbreBinari(lectura);  // Exigència de l'exercici, noms diferents
                     break;
                 case 3:
                     casDeProvaExercici3();
                     break;
                 case 4:
-                    main_Binari_Heap(new CercadorMoviesHeap<int, Movie>);
+                    mainHeap(lectura);         // Exigència de l'exercici, noms diferents
                     break;
                 default:
                     break;

@@ -5,9 +5,7 @@
 #include "Movie.h"
 
 //CONSTRUCTORS
-Movie::Movie() {
-
-}
+Movie::Movie() {}
 Movie::Movie(int id, const string &nom, float rating){
     this->_id = id;
     this->_nom = nom;
@@ -35,13 +33,9 @@ const string &Movie::getNom() const {
 }
 
 //CONSULTORS
-void Movie::toString(const Movie &movie) const{
+void Movie::toString() const{
 
-    cout << print();
-
-//    cout << "(" << movie->_id << "::"
-//         << movie->_nom << "::"
-//         << movie->_rating << ")" << endl;
+    cout << print() << endl;
 }
 string Movie::print() const {
     return "(" + to_string(this->_id) + "::"

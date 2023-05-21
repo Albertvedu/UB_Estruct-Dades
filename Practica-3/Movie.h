@@ -24,9 +24,9 @@ public:
     float getRating() const;
 
     //CONSULTORS
-    void toString(const Movie &movie) const;
+    void toString() const;
     string print() const;
-    //MODIFICADORS
+
 private:
     int _id;
     string _nom;

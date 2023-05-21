@@ -12,7 +12,6 @@
 #include <cstdlib>
 #include<algorithm>
 
-
 using namespace std;
 
 template <class Clau, class Valor>
@@ -23,75 +22,79 @@ public:
     ArbreBinari(ArbreBinari<Clau, Valor> *orig);
 
     //DESTRUCTOR
-     virtual ~ArbreBinari();                                             // Cost (O) n
+     virtual ~ArbreBinari();                                             // Cost O(n)
 
     //CONSULTORS
-    bool isEmpty() const;                                                // Cost (O) 1
+    bool isEmpty() const;                                                 // Cost O(1)
     //Post: Retorna booleà si l'arbre està buit o plé
 
-    int height() ;                                                       // Cost (O) log n
+    int height() ;                                                       // Cost O( log n)
     //Post: Retorna int amb l'alçada de l'arbre.
 
-    const Valor& valueOf(const Clau& clau) const;                                   // Cost (O) 1
+    const Valor& valueOf(const Clau& clau) const;                                    // Cost O(1)
     //Post: Retorna Objecta Valor, donada una clau
 
     void imprimirPreordre(const NodeBinari<Clau,Valor>* n = nullptr) const;         // Cost (O) n log n
     //Post: Sortida impresa per pantalla de l'arbre, amb pre-Ordre
 
-    void imprimirInordre(const NodeBinari<Clau,Valor>* n = nullptr) const;          // Cost (O) n log n
+    void imprimirInordre(const NodeBinari<Clau,Valor>* n = nullptr) const;          // Cost O( n  log n)
     //Post: Sortida impresa per pantalla de l'arbre, amb in-Ordre
 
-    void imprimirPostordre(const NodeBinari<Clau,Valor>* n = nullptr) const;        // Cost (O) n log n
+    void imprimirPostordre(const NodeBinari<Clau,Valor>* n = nullptr) const;         // Cost O( n  log n)
     //Post: Sortida impresa per pantalla de l'arbre, amb post-Ordre
 
-    vector<NodeBinari<Clau,Valor>*> obteValorsRang(int k1, int k2) const;           // Cost (O) log n
+    vector<NodeBinari<Clau,Valor>*> obteValorsRang(int k1, int k2) const;            // Cost O( log n)
     //Post: Retorna nodes entre rang de k1 i k2
 
-    void imprimirCami(Clau _key) const;                                             // Cost (O) log n
+    void imprimirCami(Clau _key) const;                                              // Cost O( log n)
     //Post: Retorna cami des de l'arrel fins el node amb la clau key
 
-    NodeBinari<Clau, Valor> *getRoot() const;                                        // Cost (O) 1
+    NodeBinari<Clau, Valor> *getRoot() const;                                         // Cost O(1)
     //Post: Retorna atribut privat _root
 
-    int getHeight() const;                                                            // Cost (O) n log(n)
+    int getHeight() const;                                                             // Cost O( n  log n)
     //Post: Retorna int de valor del atribut privat _heightArbre
 
     //MODIFICADORS
-    NodeBinari<Clau,Valor>* insert(const Clau& clau, const Valor& value);             // Cost (O) 1 log(n) Buscar pos
+    NodeBinari<Clau,Valor>* insert(const Clau& clau, const Valor& value);              // Cost O( 1  log n) Buscar pos
     //Post: Insereix element nou i retorna node que ha creat
 
-    void eliminaMinim();                                                              // Cost (O) log(n)
+    void eliminaMinim();                                                               // Cost O( log n)
     //Post: Elimina l'element amb la clau més petita.
 
-    int nivell();
-    int nivellr(const NodeBinari<Clau,Valor>* node);
-    //Post: Setter per l'atribut _heightArbre
+    int nivell();                                                                     // Cost O( log n)
+    //Post: retorna el nivell màxim de l'arbre
+
+    int nivellr(const NodeBinari<Clau,Valor>* node);                                  // Cost O( log n)
+    //Post: mètode recursiu del nivell()
+
+    // Cost (O) 1
+    //Post: Getter de la variable _size. Retorna tamany de l'arbre
+
+
+    int getSize() const;                                                    // Cost O (1)
 
 protected:
     // Atributs
     NodeBinari<Clau,Valor>* root;
 
     //MÈTODES PROTECTED
-    NodeBinari<Clau,Valor>* search(const Clau& k);                              // Cost (O) log(n)
+    NodeBinari<Clau,Valor>* search(const Clau& k);                               // Cost O( log n)
     //Post: busca i retorna node amb la clau que arriba per paràmetres
 
-    void calcularHeightArbre(const NodeBinari<Clau,Valor>* node);                     // Cost (O) n log(n)
+    void calcularHeightArbre(const NodeBinari<Clau,Valor>* node);                      // Cost O( n  log n)
     //Post: Actualitza valor atribut _heightArbre, amb el càlcul de l'alçada del arbre
 
-    void mostrarArbreOrdenat() const;                                                 // Cost (O) n
+    void mostrarArbreOrdenat() const;                                                  // Cost O( n )
     //Post: Mostra per pantalla arbre ordenat en in-ordre
 
-    void setHeight(int n);                                                            // Cost (O) 1
+    void setHeight(int n);                                                            // Cost O(1)
     //Post: Reinicialitzar la variable _heightArbre;
-
-    int getSize() const;
-
 
 private:
     //Atributs
     int _size;
     int _heightArbre;
-    NodeBinari<Clau, Valor>* _node;
 
     // MÈTODES PRIVATS
     NodeBinari<Clau, Valor>* cercarPosicioInsercio(const Clau &clau, NodeBinari<Clau, Valor>* node) const;//Cost (O) log(n)
@@ -131,8 +134,6 @@ private:
     void imprimirCamiRecurs(NodeBinari<int, int>* node, int clau) const;                          // Cost (O) log(n)
     //Post: Mètode recursiu del mètode imprimirCami()
 
-    void deleteArbreRecursiu(NodeBinari<Clau, Valor>* root);                                     // Cost (O) n
-    //Mètode recursiu del Destructor
 };
 
 /*########################################################
@@ -142,7 +143,7 @@ private:
 template <class Clau, class Valor>
 ArbreBinari<Clau, Valor>::ArbreBinari(){
     this->root = nullptr;
-    this->_node = nullptr;
+    //this->_node = nullptr;
     this->_size = 0;
     this->_heightArbre = 0;
     cout << "\n\e[1mArbre binari creat\e[0m\n" << endl;
@@ -158,66 +159,36 @@ ArbreBinari<Clau, Valor>::ArbreBinari(ArbreBinari<Clau, Valor> *orig){
         cout << "\n\e[1mArbre binari copiat\e[0m" << endl;
     }
 }
-template <class Clau, class Valor>
-void ArbreBinari<Clau, Valor>::deleteArbreRecursiu(NodeBinari<Clau, Valor>* node){
 
-    if (node == nullptr)                               // Caso base: árbol vacío
-        return;
-
-    // eliminar primero el subárbol izquierdo y derecho (Postorder)
-    deleteArbreRecursiu(node->getLeft());
-    deleteArbreRecursiu(node->getRight());
-
-    node = nullptr;
-    delete node;
-}
 template <class Clau, class Valor>
 ArbreBinari<Clau, Valor>::~ArbreBinari(){
 
-    deleteArbreRecursiu(this->root);
-    deleteArbreRecursiu(this->_node);
+    NodeBinari<Clau, Valor>* nodeAux;
+    int contador  = 0;
 
-    this->root = nullptr;
-    delete this->root;
-    this->_node = nullptr;
-    delete this->_node;
+    while (root != nullptr){    // Recorre l'arbre fins a les fulles i va eliminant des d'abaix
+        while ( root->hasLeft() ){
+            root = root->getLeft();
+        }
+        while ( root->hasRight() ){
+            root = root->getRight();
+        }
+        if (root->isExternal()) {
+            nodeAux = root;
+            if (root->getPare() != nullptr)
+                root->isIsRight() ? root->getPare()->setRight(nullptr) :
+                     root->getPare()->setLeft(nullptr);
 
-    this->_size = 0;
+            cout << "Eliminat "<< root->getKey() << endl;
+            delete root;                                      // Crida al destructor de nodeBinari()
+
+            this->_size --;
+            contador ++;
+            root = nodeAux->getPare();     // des de la fulla, va pujant cap al pare
+        }
+    }
     cout << "Arbre binari destruït" << endl;
-
-          // Opcio Iterativa
-//    NodeBinari<Clau, Valor>* node = this->root;
-//    NodeBinari<Clau, Valor>* nodeAux;
-//    cout << "Destruint arbre binari " << endl;
-//    while( node != nullptr){
-//        while ( node->hasLeft() ){
-//            node = node->getLeft();
-//        }
-//
-//        while ( node->hasRight() ){
-//            node = node->getRight();
-//        }
-//
-//        if (node->isExternal()){
-//
-//            nodeAux = node;
-//
-//            if (node->getPare() != nullptr) {
-//                node->isIsRight() ? node->getPare()->setRight(nullptr) :
-//                    node->getPare()->setLeft(nullptr);
-//            }
-//            cout << "Eliminat "<< node->getKey() << endl;
-
-//            delete node;
-//            node = nullptr;
-//            node = nodeAux->getPare();
-//        }
-//        cout << "size... " << this->_size-- << endl;
-//    }
-
-//    this->_size = 0;
-//
-//    cout << "Arbre binari destruït" << endl;
+    cout << contador << " Nodes eliminats de memòria" << endl;
 }
 
 template <class Clau, class Valor>
@@ -264,24 +235,25 @@ NodeBinari<Clau,Valor>* ArbreBinari<Clau, Valor>::insert(const Clau& clau, const
     //Post: crea i inserta node, amb el paràmetres d'entrada
 
     NodeBinari<Clau, Valor>* nodeNou= new NodeBinari<Clau, Valor>(clau, value);
+    NodeBinari<Clau, Valor>* node;
 
     if(isEmpty()) {
         this->root = nodeNou;
-        this->_node = root;
+       // this->_node = root;
         this->_heightArbre = 1;
 
     }
     else{
-        this->_node = cercarPosicioInsercio(clau, root);          //Recorre arbre per trobar posició inserció.
-        nodeNou->setPare(this->_node);
+        node = cercarPosicioInsercio(clau, root);          //Recorre arbre per trobar posició inserció.
+        nodeNou->setPare(node);
 
-        if( clau < this->_node->getKey() ){
-            this->_node->setLeft(nodeNou);
-            this->_node->getLeft()->setIsRight(false);   // Indico que aquest node, és node de l'esquerra
+        if( clau < node->getKey() ){
+            node->setLeft(nodeNou);
+            node->getLeft()->setIsRight(false);   // Indico que aquest node, és node de l'esquerra
         }
         else{
-            this->_node->setRight(nodeNou);
-            this->_node->getRight()->setIsRight(true);    // Indico que aquest node, és node de la dreta
+            node->setRight(nodeNou);
+            node->getRight()->setIsRight(true);    // Indico que aquest node, és node de la dreta
         }
     }
     this->_size ++;
@@ -435,12 +407,11 @@ void ArbreBinari<Clau, Valor>::eliminaMinim(){
 
 template <class Clau, class Valor>
 void ArbreBinari<Clau, Valor>::eliminarNode(NodeBinari<Clau,Valor>* &node){
-
+    cout << "Eliminat:  (" << node->getKey() << ")" << endl;
     if (node->isExternal()) {                         // Node a eliminar és extern
         if (node->getPare() == nullptr) {            // Saber si és el root. Sense fills
-            node = nullptr;
-            this->root = nullptr;
             delete this->root;
+            this->root = nullptr;
         }
         else{              // No es root, llavors verifica si es node esquerra o dreta
             if (node->isIsRight())
@@ -459,13 +430,15 @@ void ArbreBinari<Clau, Valor>::eliminarNode(NodeBinari<Clau,Valor>* &node){
             node->setValue(successor->getValue());
             node->setIsRight(false);
 
+
             // Aqui, canvia enllaços del successor amb el node a eliminar
             if ( successor->isExternal() ){                         // Si successor és extern
-                if (successor->isIsRight())
+                if (successor->isIsRight()) {
                     successor->getPare()->setRight(nullptr);
-                else
+                }
+                else {
                     successor->getPare()->setLeft(nullptr);
-
+                }
             }else{                                                 // Si successor NO és extern
                 successor->getRight()->setPare(successor->getPare());
 
@@ -473,10 +446,13 @@ void ArbreBinari<Clau, Valor>::eliminarNode(NodeBinari<Clau,Valor>* &node){
                 if( successor->getRight()->getKey() < successor->getPare()->getKey()) {
                     successor->getRight()->setIsRight(false);
                     successor->getPare()->setLeft(successor->getRight());  // Si és MENOR és setLeft()
+                    successor->setRight(nullptr);  // Necesari desvincular-lo del node dret, sino s'esborra amb el delete
                 }
                 else{ //Si la clau del fill dret del successor és MAJOR que el Pare del succesor
                     successor->getRight()->setIsRight(true);
                     successor->getPare()->setRight(successor->getRight());   // Si és MAJOR és setRight()
+                    successor->setRight(nullptr);          // Desvinculo el successor dels altres
+                    successor->setPare(nullptr);
                 }
             }
             delete successor;
@@ -485,6 +461,7 @@ void ArbreBinari<Clau, Valor>::eliminarNode(NodeBinari<Clau,Valor>* &node){
                 node->getPare()->setLeft(successor);
                 successor->setPare(node->getPare());
                 successor->setIsRight(false);
+                node->setRight(nullptr);            // Desvinculo node del veí
                 delete node;
             }else{                                         // Successor es node esquerra
                 node->setKey(successor->getKey());
@@ -493,9 +470,10 @@ void ArbreBinari<Clau, Valor>::eliminarNode(NodeBinari<Clau,Valor>* &node){
                 if (successor->isExternal()){                  // Successor és extern
                     successor->getPare()->setLeft(nullptr);
                 }else{
-                    successor->getRight()->setPare(successor->getPare());
-                    successor->getPare()->setLeft(successor->getRight());
+                    successor->getRight()->setPare(successor->getPare());   // Vinculo veins amb Pare del successor
+                    successor->getPare()->setLeft(successor->getRight());   // Vinculo Pare amb Veins del successor
                     successor->getRight()->setIsRight(false);
+                    successor->setRight(nullptr);          // Desvinculo el successor dels altres
                 }
                 delete successor;
             }
@@ -593,6 +571,7 @@ int ArbreBinari<Clau, Valor>::nivellr(const NodeBinari<Clau,Valor>* node)  {
 }
 template <class Clau, class Valor>
 int ArbreBinari<Clau, Valor>::nivell()  {
+    //Post: fa el compte des de l'arrel fins a la fulla
     if ( isEmpty())
         throw invalid_argument("\e[1mL'arbre està buit\e[0m");
     else{
@@ -610,6 +589,7 @@ int ArbreBinari<Clau, Valor>::verificarHeight(const NodeBinari<Clau,Valor>* node
 
 template <class Clau, class Valor>
 void ArbreBinari<Clau, Valor>::calcularHeightArbre(const NodeBinari<Clau,Valor>* node)  {
+    //Post: fa el compte des de la fulla fins a l'arrel
     if ( isEmpty())
         throw invalid_argument("\e[1mL'arbre està buit\e[0m");
     else{
@@ -633,7 +613,7 @@ int ArbreBinari<Clau, Valor>::mostrarPelisRecurs(const NodeBinari<Clau,Valor>* n
     if (node != nullptr) {
         if (node->hasLeft())
             contador = mostrarPelisRecurs(node->getLeft(), contador);  // Acció recursiva buscant el node esquerra
-        cout << node->getValue().print() << endl;                           // Imprimeix pel·licula.
+        node->getValue().toString();                           // Imprimeix pel·licula.
         contador++;
 
         if (contador == 40){                                             // Controla per mostrar de 40 en 40
